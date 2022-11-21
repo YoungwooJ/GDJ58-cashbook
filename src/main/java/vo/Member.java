@@ -2,7 +2,7 @@ package vo;
 
 public class Member {
 	private int memberNo;
-	private String memberid;
+	private String memberId;
 	private String memberPw;
 	private String memberName;
 	private String updatedate;
@@ -13,11 +13,11 @@ public class Member {
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
-	public String getMemberid() {
-		return memberid;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setMemberid(String memberid) {
-		this.memberid = memberid;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 	public String getMemberPw() {
 		return memberPw;
@@ -43,4 +43,5 @@ public class Member {
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
+
 }
