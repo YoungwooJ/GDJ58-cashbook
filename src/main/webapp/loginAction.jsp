@@ -3,7 +3,7 @@
 <%@ page import = "vo.*" %>
 <%@ page import="java.net.URLEncoder" %>
 <%	
-	// C
+	// 1. C
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") != null){
 		// 로그인이 된 상태
@@ -11,24 +11,24 @@
 		return;
 	}
 	//방어코드
-	if(request.getParameter("id")==null 
-			|| request.getParameter("pw")==null
-			|| request.getParameter("id").equals("") 
-			|| request.getParameter("pw").equals("")){
+	if(request.getParameter("memberId")==null 
+			|| request.getParameter("memberPw")==null
+			|| request.getParameter("memberId").equals("") 
+			|| request.getParameter("memberPw").equals("")){
 		String msg = URLEncoder.encode("정보를 입력하세요.", "utf-8"); // get 방식 주소창에 문자열 인코딩 
 		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
 		return;
 	}
 	
-	String id = request.getParameter("id");
-	String pw = request.getParameter("pw");
+	String memberId = request.getParameter("memberId");
+	String memberPw = request.getParameter("memberPw");
 	
 	Member paramMember = new Member(); // 모델 호출시 매개값
 	
 	// 분리된 M(모델)을 호출
 	MemberDao memberDao = new MemberDao();
-	paramMember.setMemberId(id);
-	paramMember.setMemberPw(pw);
+	paramMember.setMemberId(memberId);
+	paramMember.setMemberPw(memberPw);
 	Member resultMember = memberDao.login(paramMember);
 	
 	String redirectUrl = "/loginForm.jsp";

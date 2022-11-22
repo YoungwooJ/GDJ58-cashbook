@@ -4,11 +4,18 @@
 <%@ page import = "java.util.*" %>
 <%
 	// Controller : session, request
-	/*
+	// session 유효성 검증 코드 후 필요하다면 redirect!
+	if(session.getAttribute("loginMember") == null){
+		// 로그인이 되지 않은 상태
+		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		return;
+	}
+	
+	// session에 저장된 멤버(현재 로그인 사용자)
 	Object objLoginMember = session.getAttribute("loginMember");
 	Member loginMember = (Member)objLoginMember;
 	//System.out.println(loginMember);
-	*/
+	
 	//request 년 + 월
 	int year = 0;
 	int month = 0;
@@ -55,7 +62,7 @@
 	
 	// Model 호출 : 일별 cash 목록
 	CashDao cashDao = new CashDao();
-	ArrayList<HashMap<String, Object>> list = cashDao.selectCashListByMonth(year, month+1); // month는 1 더해야 한다
+	ArrayList<HashMap<String, Object>> list = cashDao.selectCashListByMonth(loginMember.getMemberId(), year, month+1); // month는 1 더해야 한다
 	
 	
 	// View : 달력출력 + 일별 cash 목록 출력
@@ -72,55 +79,69 @@
 	<!-- </div> -->
 	
 	<div>
+		<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month-1%>">&#8701;이전달</a>
+		
 		<%=year%>년 <%=month+1%> 월
+		
+		<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month+1%>">다음달&#8702;</a>
 	</div>
-	<table>
-		<tr>
-			<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
-		</tr>
-		<tr>
-			<!-- 달력 -->
-			<%
-				for(int i=1; i<=totalTd; i++){
-			%>
-					<td>
-					<%
-						int date = i - beginBlank;
-						if(date>0 && date<= lastDate){
-					%>
-							<%= i - beginBlank %>
-					<%
-						} else {
-					%>
-							&nbsp;
-					<%		
-						}
-					%>
-					</td>
-			<%
-			
-					if(i%7 == 0 && i != totalTd){
-			%>
-						</tr><tr> <!-- td7개 만들고 테이블 줄바꿈 -->
-			<%			
-					}
-				}
-			%>
-		</tr>
-	</table>
 	<div>
-		<%
-			for(HashMap<String, Object> m : list){
-		%>
-				<%=(Integer)m.get("cashNo")%><br>
-				<%=(Integer)m.get("categoryNo")%><br>
-				<%=(String)m.get("cashDate")%><br>
-				<%=(Long)m.get("cashPrice")%><br>
-				<%=(String)m.get("categoryKind")%><br>
-				<%=(String)m.get("categoryName")%><br>
-		<%
-			}
-		%>
+		<!-- 달력 -->
+		<table border="1" width="90%">
+			<tr>
+				<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
+			</tr>
+			<tr>
+				<%
+					for(int i=1; i<=totalTd; i++){
+				%>
+						<td>
+						<%
+							int date = i - beginBlank;
+							if(date>0 && date<= lastDate){
+						%>
+								<div>
+									<a href="<%=request.getContextPath()%>/cash/cashDateList.jsp?year=<%=year%>&month=<%=month+1%>&date=<%=date%>">
+										<%=date%>
+									</a>
+								</div>
+								<div>
+									<%
+										for(HashMap<String, Object> m : list){
+											String cashDate = (String)m.get("cashDate");
+											if(Integer.parseInt(cashDate.substring(8)) == date){
+									%>
+												[<%=(String)m.get("categoryKind")%>]
+												&nbsp;
+												<%=(String)m.get("categoryName")%>
+												&nbsp;
+												<%=(Long)m.get("cashPrice")%>원
+												<br>
+									<%			
+											}		
+										}
+									%>
+								</div>
+						<%
+							} else {
+						%>
+								&nbsp;
+						<%		
+							}
+						%>
+						</td>
+				<%
+				
+						if(i%7 == 0 && i != totalTd){
+				%>
+							</tr><tr> <!-- td7개 만들고 테이블 줄바꿈 -->
+				<%			
+						}
+					}
+				%>
+			</tr>
+		</table>
+		<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
 	</div>
 </body>
 </html>
