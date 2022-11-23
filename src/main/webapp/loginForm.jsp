@@ -7,6 +7,9 @@
 		response.sendRedirect(request.getContextPath()+"/cash/cashList.jsp");
 		return;
 	}
+
+	//알림 메시지
+	String msg = null;
 %>
 <!DOCTYPE html>
 <html>
@@ -16,6 +19,15 @@
 </head>
 <body>
 	<h1>로그인</h1>
+	<!-- msg 파라메타값이 있으면 출력 -->
+	<%
+		msg = request.getParameter("msg");
+		if(msg != null) {
+	%>
+			<div><%=msg%></div>
+	<%		
+		}
+	%>
 	<form action="<%=request.getContextPath()%>/loginAction.jsp" method="post">
 		<div>
 			ID:

@@ -74,10 +74,12 @@
 <title>cashList</title>
 </head>
 <body>
-	<!-- <div>-->
+	<div>
 		<!-- 로그인 정보(세션 loginMember 변수) 출력 -->
-	<!-- </div> -->
-	
+		<div><%=loginMember.getMemberName()%>님 반갑습니다.</div>
+		<a href="<%=request.getContextPath()%>/memberOne.jsp?loginMemberId=<%=loginMember.getMemberId()%>">내정보</a>
+		<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
+		</div>
 	<div>
 		<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month-1%>">&#8701;이전달</a>
 		
@@ -141,7 +143,6 @@
 				%>
 			</tr>
 		</table>
-		<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
 	</div>
 </body>
 </html>

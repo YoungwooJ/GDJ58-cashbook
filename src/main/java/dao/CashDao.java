@@ -30,6 +30,7 @@ public class CashDao {
 			m.put("cashMemo", rs.getString("cashMemo"));
 			m.put("updatedate", rs.getString("updatedate"));
 			m.put("createdate", rs.getString("createdate"));
+			m.put("categoryNo", rs.getInt("categoryNo"));
 			m.put("categoryKind", rs.getString("categoryKind"));
 			m.put("categoryName", rs.getString("categoryName"));
 			list.add(m);
@@ -59,7 +60,7 @@ public class CashDao {
 			m.put("cashPrice", rs.getLong("cashPrice"));
 			m.put("updatedate", rs.getString("updatedate"));
 			m.put("createdate", rs.getString("createdate"));
-			m.put("categoryNo", rs.getString("categoryNo"));
+			m.put("categoryNo", rs.getInt("categoryNo"));
 			m.put("categoryKind", rs.getString("categoryKind"));
 			m.put("categoryName", rs.getString("categoryName"));
 			list.add(m);

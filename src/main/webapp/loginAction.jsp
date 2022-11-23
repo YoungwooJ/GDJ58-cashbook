@@ -10,12 +10,16 @@
 		response.sendRedirect(request.getContextPath()+"/cash/cashList.jsp");
 		return;
 	}
+
+	// 메시지 코드
+	String msg = null;
+	
 	//방어코드
 	if(request.getParameter("memberId")==null 
 			|| request.getParameter("memberPw")==null
 			|| request.getParameter("memberId").equals("") 
 			|| request.getParameter("memberPw").equals("")){
-		String msg = URLEncoder.encode("정보를 입력하세요.", "utf-8"); // get 방식 주소창에 문자열 인코딩 
+		msg = URLEncoder.encode("정보를 입력하세요.", "utf-8"); // get 방식 주소창에 문자열 인코딩 
 		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
 		return;
 	}
@@ -35,6 +39,8 @@
 	
 	if(resultMember == null){
 			System.out.println("로그인 실패");
+			msg = URLEncoder.encode("아이디와 비밀번호를 확인하세요.", "utf-8"); // get 방식 주소창에 문자열 인코딩 
+			redirectUrl = "/loginForm.jsp?msg="+msg;
 	} else {
 		   	System.out.println("로그인 성공");
 			// 로그인 성공했다는 값을 저장 -> session 

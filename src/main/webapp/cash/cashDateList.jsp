@@ -100,7 +100,7 @@
 							<td><%=(String)m.get("cashMemo")%></td>
 							<td><%=(String)m.get("createdate")%></td>
 							<td><%=(String)m.get("updatedate")%></td>
-							<td><a href="<%=request.getContextPath()%>/cash/updateCashForm.jsp?cashNo=<%=(Integer)m.get("cashNo")%>&categoryKind=<%=(String)m.get("categoryKind")%>&categoryName=<%=(String)m.get("categoryName")%>&year=<%=year%>&month=<%=month%>&date=<%=date%>">수정</a></td>
+							<td><a href="<%=request.getContextPath()%>/cash/updateCashForm.jsp?cashNo=<%=(Integer)m.get("cashNo")%>&year=<%=year%>&month=<%=month%>&date=<%=date%>">수정</a></td>
 							<td><a href="<%=request.getContextPath()%>/cash/deleteCashForm.jsp?cashNo=<%=(Integer)m.get("cashNo")%>&categoryKind=<%=(String)m.get("categoryKind")%>&categoryName=<%=(String)m.get("categoryName")%>&year=<%=year%>&month=<%=month%>&date=<%=date%>">삭제</a></td>
 						</tr>
 			<%			

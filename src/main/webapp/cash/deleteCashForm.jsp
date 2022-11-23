@@ -74,7 +74,7 @@
 		msg = request.getParameter("msg");
 		if(msg != null) {
 	%>
-			<div class="text-danger"><%=msg%></div>
+			<div><%=msg%></div>
 	<%		
 		}
 	%>
