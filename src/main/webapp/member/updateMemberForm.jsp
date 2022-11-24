@@ -7,7 +7,7 @@
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 	
@@ -37,7 +37,7 @@
 	<%		
 		}
 	%>
-	<form action="<%=request.getContextPath()%>/updateMemberAction.jsp">
+	<form action="<%=request.getContextPath()%>/member/updateMemberAction.jsp" method="post">
 		<h2>닉네임 수정</h2>
 		<table border="1">
 			<tr>

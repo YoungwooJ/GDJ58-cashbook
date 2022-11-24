@@ -26,7 +26,7 @@
 		<%		
 			}
 		%>
-		<form action="<%=request.getContextPath()%>/insertMemberAction.jsp" method="post">
+		<form action="<%=request.getContextPath()%>/member/insertMemberAction.jsp" method="post">
 			<table>
 				<tr>
 					<td>회원 아이디</td>

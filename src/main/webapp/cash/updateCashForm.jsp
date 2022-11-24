@@ -10,7 +10,7 @@
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 	
@@ -80,7 +80,7 @@
 		}
 	%>
 	<div>
-		<form action="<%=request.getContextPath()%>/cash/updateCashAction.jsp">
+		<form action="<%=request.getContextPath()%>/cash/updateCashAction.jsp" method="post">
 		<input type="hidden" name="cashNo" value="<%=cashNo%>">
 		<input type="hidden" name="year" value="<%=year%>">
 		<input type="hidden" name="month" value="<%=month%>">

@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import util.DBUtil;
+import vo.Cash;
 
 public class CashDao {
 	
-	// 호출 : cashDateList.jsp
+	// SELECT : cashDateList.jsp
 	public ArrayList<HashMap<String, Object>> selectCashListByDate(String memberId, int year, int month, int date) throws Exception{
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		DBUtil dbUtil = new DBUtil();
@@ -36,13 +37,11 @@ public class CashDao {
 			list.add(m);
 		}
 		
-		rs.close();
-		stmt.close();
-		conn.close();
+		dbUtil.close(rs, stmt, conn);
 		return list;
 	}
 	
-	// 호출 : cashList.jsp
+	// SELECT : cashList.jsp
 	public ArrayList<HashMap<String, Object>> selectCashListByMonth(String memberId, int year, int month) throws Exception{
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		DBUtil dbUtil = new DBUtil();
@@ -66,9 +65,59 @@ public class CashDao {
 			list.add(m);
 		}
 		
-		rs.close();
-		stmt.close();
-		conn.close();
+		dbUtil.close(rs, stmt, conn);
 		return list;
+	}
+	
+	// INSERT : insertCashAction.jsp
+	public int insertCash(Cash cash) throws Exception{
+		int row = 0;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "INSERT into cash(category_no, member_id, cash_date, cash_price, cash_memo, updatedate, createdate) VALUES(?, ?, ?, ?, ?, CURDATE(), CURDATE())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cash.getCategoryNo());
+		stmt.setString(2, cash.getMemberId());
+		stmt.setString(3, cash.getCashDate());
+		stmt.setLong(4, cash.getCashPrice());
+		stmt.setString(5, cash.getCashMemo());
+		row = stmt.executeUpdate();
+		dbUtil.close(null, stmt, conn);
+		return row;
+	}
+	
+	// UPDATE : updateCashAction.jsp
+	public int updateCash(Cash cash) throws Exception{
+		int row = 0;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = null;
+		PreparedStatement stmt = null;
+		sql = "UPDATE cash SET category_no = ?, cash_price= ?, cash_memo=?, updatedate=CURDATE() WHERE cash_no=? AND member_id = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cash.getCategoryNo());
+		stmt.setLong(2, cash.getCashPrice());
+		stmt.setString(3, cash.getCashMemo());
+		stmt.setInt(4, cash.getCashNo());
+		stmt.setString(5, cash.getMemberId());
+		row = stmt.executeUpdate();
+		dbUtil.close(null, stmt, conn);
+		return row;
+	}
+	
+	// DELETE : deleteCashAction.jsp
+	public int deleteCash(Cash cash) throws Exception{
+		int row = 0;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = null;
+		PreparedStatement stmt = null;
+		sql = "DELETE FROM cash WHERE cash_no = ? AND member_id = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cash.getCashNo());
+		stmt.setString(2, cash.getMemberId());
+		row = stmt.executeUpdate();
+		dbUtil.close(null, stmt, conn);
+		return row;
 	}
 }

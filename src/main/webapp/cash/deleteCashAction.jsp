@@ -2,6 +2,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="vo.*"%>
+<%@ page import="dao.*"%>
 <%@ page import="util.*"%>
 <%@ page import="java.net.URLEncoder" %>
 <%
@@ -9,7 +10,7 @@
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 	
@@ -57,7 +58,7 @@
 		return;
 	}
 	
-	String cashNo = request.getParameter("cashNo");
+	int cashNo = Integer.parseInt(request.getParameter("cashNo"));
 	String categoryKind = request.getParameter("categoryKind");
 	String categoryName = request.getParameter("categoryName");
 	
@@ -84,63 +85,45 @@
 	System.out.println(memberId + " <--- Id");
 	System.out.println(memberPw + " <--- PW");
 	
-	// 2. M
+	Member member = new Member();
+	member.setMemberId(memberId);
+	member.setMemberPw(memberPw);
 	
-	// db연결
-	DBUtil dbUtil = new DBUtil();
-	Connection conn = dbUtil.getConnection();
+	Cash cash = new Cash();
+	cash.setCashNo(cashNo);
+	cash.setMemberId(memberId);
+	
+	// 2. M 호출
+	CashDao cashDao = new CashDao();
+	MemberDao memberDao = new MemberDao();
 	
 	// 비밀번호 확인
-	String pwSql = "SELECT member_name memberName FROM member WHERE member_id=? AND member_pw=PASSWORD(?)";
-	PreparedStatement pwStmt = conn.prepareStatement(pwSql);
-	pwStmt.setString(1, memberId);
-	pwStmt.setString(2, memberPw);
-	ResultSet rs = pwStmt.executeQuery();
+	String targetUrl = "/cash/deleteCashForm.jsp";	
 	
-	String targetPage = "/cash/deleteCashForm.jsp";
-	String memberName = null;
-	
-	while(rs.next()) {
-		memberName = rs.getString("memberName"); 
-		if(memberName!=null){
-			System.out.println("비밀번호 확인 성공");
-			
-			// 내역 삭제 쿼리
-			String sql = "DELETE FROM cash WHERE cash_no = ? AND member_id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, cashNo);
-			stmt.setString(2, memberId);
-			
-			int row = stmt.executeUpdate();
-			
-			if(row == 1) {
-				System.out.println("삭제성공");
-				msg = URLEncoder.encode("내역이 삭제되었습니다.", "utf-8");
-				targetPage = "/cash/cashDateList.jsp?msg="+msg+"&year="+year+"&month="+month+"&date="+date;
-			} else {
-				System.out.println("삭제실패");
-				msg = URLEncoder.encode("삭제 실패하였습니다.", "utf-8");
-				String msgCategoryKind = URLEncoder.encode(categoryKind, "utf-8");
-				String msgCategoryName = URLEncoder.encode(categoryName, "utf-8");
-				targetPage = "/cash/deleteCashForm.jsp?msg="+msg+"&cashNo="+cashNo+"&categoryKind"+msgCategoryKind+"&categoryName"+msgCategoryName;
-			}
-				
-			stmt.close();
-			conn.close();
+	if(memberDao.memberPwck(member)) {
+		System.out.println("비밀번호 확인 성공");
+		// 내역 삭제
+		int row = 0;
+		row = cashDao.deleteCash(cash);
+		if(row == 1) {
+			System.out.println("삭제성공");
+			msg = URLEncoder.encode("내역이 삭제되었습니다.", "utf-8");
+			targetUrl = "/cash/cashDateList.jsp?msg="+msg+"&year="+year+"&month="+month+"&date="+date;
+		} else {
+			System.out.println("삭제실패");
+			msg = URLEncoder.encode("삭제 실패하였습니다.", "utf-8");
+			String msgCategoryKind = URLEncoder.encode(categoryKind, "utf-8");
+			String msgCategoryName = URLEncoder.encode(categoryName, "utf-8");
+			targetUrl = "/cash/deleteCashForm.jsp?msg="+msg+"&cashNo="+cashNo+"&categoryKind"+msgCategoryKind+"&categoryName"+msgCategoryName;
 		}
-	}
-	
-	if(memberName==null){
+	} else {
 		System.out.println("비밀번호 확인 실패");	
 		msg = URLEncoder.encode("비밀번호가 틀렸습니다.", "utf-8");
 		String msgCategoryKind = URLEncoder.encode(categoryKind, "utf-8");
 		String msgCategoryName = URLEncoder.encode(categoryName, "utf-8");
-		targetPage = "/cash/deleteCashForm.jsp?msg="+msg+"&cashNo="+cashNo+"&categoryKind="+msgCategoryKind+"&categoryName="+msgCategoryName+"&year="+year+"&month="+month+"&date="+date;
+		targetUrl = "/cash/deleteCashForm.jsp?msg="+msg+"&cashNo="+cashNo+"&categoryKind="+msgCategoryKind+"&categoryName="+msgCategoryName+"&year="+year+"&month="+month+"&date="+date;
 	}
 	
-	pwStmt.close();
-	rs.close();
-	
-	response.sendRedirect(request.getContextPath()+targetPage);
+	response.sendRedirect(request.getContextPath()+targetUrl);
 	// 3. V
 %>

@@ -2,6 +2,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="vo.*"%>
+<%@ page import="dao.*"%>
 <%@ page import="util.*"%>
 <%@ page import="java.net.URLEncoder" %>
 <%
@@ -9,7 +10,7 @@
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 	
@@ -57,28 +58,24 @@
 	long cashPrice = Long.parseLong(request.getParameter("cashPrice"));
 	String cashMemo = request.getParameter("cashMemo");
 	
-	// 2. M
-	// db연결
-	DBUtil dbUtil = new DBUtil();
-	Connection conn = dbUtil.getConnection();
+	Cash cash = new Cash();
+	cash.setCategoryNo(categoryNo);
+	cash.setMemberId(memberId);
+	cash.setCashDate(cashDate);
+	cash.setCashPrice(cashPrice);
+	cash.setCashMemo(cashMemo);
 	
-	// 쿼리
-	String sql = "INSERT into cash(category_no, member_id, cash_date, cash_price, cash_memo, updatedate, createdate) VALUES(?, ?, ?, ?, ?, CURDATE(), CURDATE())";
-	PreparedStatement stmt = conn.prepareStatement(sql);
-	stmt.setInt(1, categoryNo);
-	stmt.setString(2, memberId);
-	stmt.setString(3, cashDate);
-	stmt.setLong(4, cashPrice);
-	stmt.setString(5, cashMemo);
+	// 2. M 호출
+	CashDao cashDao = new CashDao();
+	int row = cashDao.insertCash(cash);
 	
-	int row = stmt.executeUpdate();
 	// 디버깅 코드
 	if(row == 1) {
 		System.out.println("입력성공");
 	} else {
 		System.out.println("입력실패");
 	}
-	System.out.println("입력된 데이터 값: "+ categoryNo + " " + memberId + " " + cashDate + " " + cashPrice + " " + cashMemo);
+	System.out.println("입력된 데이터 값: "+ categoryNo + " " + memberId + " " + cashDate + " " + cashPrice + " " + cashMemo + "<--- insertCashAction.jsp");
 	
 	// 3. V
 	response.sendRedirect(request.getContextPath()+"/cash/cashDateList.jsp?year="+year+"&month="+month+"&date="+date);

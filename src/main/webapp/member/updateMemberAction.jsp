@@ -2,6 +2,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
 <%@ page import="vo.*"%>
+<%@ page import="dao.*"%>
 <%@ page import="util.*"%>
 <%@ page import="java.net.URLEncoder" %>
 <%
@@ -9,7 +10,7 @@
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 	
@@ -25,15 +26,20 @@
 
 	// 방어 코드
 	if(request.getParameter("memberId")==null 
-			|| request.getParameter("memberPw")==null
 			|| request.getParameter("memberName")==null
 			|| request.getParameter("newMemberName")==null 
 			|| request.getParameter("memberId").equals("") 
-			|| request.getParameter("memberPw").equals("")
 			|| request.getParameter("memberName").equals("")
 			|| request.getParameter("newMemberName").equals("")){
 		msg = URLEncoder.encode("변경할 닉네임을 입력하세요.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/updateMemberForm.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/member/updateMemberForm.jsp?msg="+msg);
+		return;
+	}
+	// 방어 코드
+	if(request.getParameter("memberPw")==null 
+			|| request.getParameter("memberPw").equals("")){
+		msg = URLEncoder.encode("비밀번호를 입력하세요.", "utf-8");
+		response.sendRedirect(request.getContextPath()+"/member/updateMemberForm.jsp?msg="+msg);
 		return;
 	}
 	
@@ -42,6 +48,11 @@
 	String memberName = request.getParameter("memberName");
 	String newMemberName = request.getParameter("newMemberName");
 	
+	Member member = new Member();
+	member.setMemberId(memberId);
+	member.setMemberPw(memberPw);
+	member.setMemberName(memberName);
+	
 	// 디버깅 코드
 	System.out.println(memberId);
 	System.out.println(memberPw);
@@ -49,36 +60,22 @@
 	System.out.println(newMemberName);
 	
 	// 2. M
+	// 회원 닉네임 수정
+	MemberDao memberDao = new MemberDao();
+	int row = 0;
 	
-	// db연결
-	DBUtil dbUtil = new DBUtil();
-	Connection conn = dbUtil.getConnection();
-	
-	// 쿼리
-	String sql = null;
-	PreparedStatement stmt = null;
-	sql = "UPDATE member SET member_name = ? WHERE member_id = ? AND member_pw = PASSWORD(?)";
-	stmt = conn.prepareStatement(sql);
-	stmt.setString(1, newMemberName);
-	stmt.setString(2, memberId);
-	stmt.setString(3, memberPw);
-	
-	int row = stmt.executeUpdate();
-	
+	row = memberDao.updateMemberName(member, newMemberName);
 	if(row==1){
 		System.out.println("수정 성공");
 		msg = URLEncoder.encode("회원정보가 수정되었습니다.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/memberOne.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/member/memberOne.jsp?msg="+msg);
 	} else {
 		System.out.println("수정 실패");
 		msg = URLEncoder.encode("비밀번호가 틀렸습니다.", "utf-8");
 		System.out.println(memberId+" "+memberPw+" "+ newMemberName);
-		response.sendRedirect(request.getContextPath()+"/updateMemberForm.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/member/updateMemberForm.jsp?msg="+msg);
 		return;
 	}
-	
-	stmt.close();
-	conn.close();
 	
 	// 3. V
 %>

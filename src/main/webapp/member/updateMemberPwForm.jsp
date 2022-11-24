@@ -2,6 +2,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="vo.*"%>
+<%@ page import="dao.*"%>
 <%@ page import="util.*"%>
 <%@ page import="java.net.URLEncoder" %>
 <%
@@ -9,7 +10,7 @@
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 	
@@ -23,30 +24,18 @@
 	Member loginMember = (Member)objLoginMember;
 	//System.out.println(loginMember);
 	
+	Member paramMember = new Member();
+	paramMember.setMemberId(loginMember.getMemberId());
+	Member resultMember = null;
+	
 	// 2. M
-	
-	// db연결
-	DBUtil dbUtil = new DBUtil();
-	Connection conn = dbUtil.getConnection();
-	
-	// 쿼리
-	String sql = null;
-	PreparedStatement stmt = null;
-	sql = "SELECT member_id memberId, member_pw memberPw, member_name memberName FROM member WHERE member_id = ?";
-	stmt = conn.prepareStatement(sql);
-	stmt.setString(1, loginMember.getMemberId());
-	ResultSet rs = stmt.executeQuery();
-	Member member = null;
-	if(rs.next()){
-		member = new Member();
-		member.setMemberId(rs.getString("memberId"));
-		member.setMemberPw(rs.getString("memberPw"));
-		member.setMemberName(rs.getString("memberName"));
-	}
+	// 회원 정보 조회
+	MemberDao memberDao = new MemberDao();
+	resultMember = memberDao.selectMemberInfo(paramMember);
 	
 	// 3. 출력(View)
 	// 디버깅 코드
-	System.out.println("수정할 비밀번호 : " + member.getMemberPw());
+	System.out.println("수정할 비밀번호 : " + resultMember.getMemberPw());
 %>
 <!DOCTYPE html>
 <html>
@@ -55,7 +44,7 @@
 <title>updateMemberPwForm</title>
 </head>
 <body>
-	<form action="<%=request.getContextPath()%>/updateMemberPwAction.jsp">
+	<form action="<%=request.getContextPath()%>/member/updateMemberPwAction.jsp" method="post">
 		<h2>비밀번호 수정</h2>
 		<!-- msg 파라메타값이 있으면 출력 -->
 		<%
@@ -70,13 +59,13 @@
 			<tr>
 				<td>아이디</td>
 				<td>
-					<input type="text" name="memberId" value="<%=member.getMemberId()%>" readonly="readonly">
+					<input type="text" name="memberId" value="<%=resultMember.getMemberId()%>" readonly="readonly">
 				</td>
 			</tr>
 			<tr>
 				<td>닉네임</td>
 				<td>
-					<input type="text" name="memberName" value="<%=member.getMemberName()%>" readonly="readonly">
+					<input type="text" name="memberName" value="<%=resultMember.getMemberName()%>" readonly="readonly">
 				</td>
 			</tr>
 			<tr>

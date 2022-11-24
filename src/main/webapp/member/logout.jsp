@@ -2,5 +2,5 @@
 <%
 	session.invalidate(); // 세션 초기화
 	System.out.println("로그아웃 성공");
-	response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+	response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 %>

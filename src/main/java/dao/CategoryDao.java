@@ -27,9 +27,7 @@ public class CategoryDao {
 			categoryList.add(c);
 		}
 		
-		rs.close();
-		stmt.close();
-		conn.close();
+		dbUtil.close(rs, stmt, conn);
 		return categoryList;
 	}
 }

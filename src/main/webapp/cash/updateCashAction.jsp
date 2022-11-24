@@ -10,7 +10,7 @@
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 	
@@ -83,66 +83,45 @@
 	System.out.println(memberId + " <--- memberId");
 	System.out.println(memberPw + " <--- memberPw");
 	
-	// 2. M
+	Member member = new Member();
+	member.setMemberId(memberId);
+	member.setMemberPw(memberPw);
 	
-	// db연결
-	DBUtil dbUtil = new DBUtil();
-	Connection conn = dbUtil.getConnection();
+	Cash cash = new Cash();
+	cash.setCategoryNo(categoryNo);
+	cash.setCashPrice(cashPrice);
+	cash.setCashMemo(cashMemo);
+	cash.setCashNo(cashNo);
+	cash.setMemberId(memberId);
+	
+	// 2. M
+	CashDao cashDao = new CashDao();
+	MemberDao memberDao = new MemberDao();
 	
 	// 비밀번호 확인
-	String pwSql = "SELECT member_name memberName FROM member WHERE member_id=? AND member_pw=PASSWORD(?)";
-	PreparedStatement pwStmt = conn.prepareStatement(pwSql);
-	pwStmt.setString(1, memberId);
-	pwStmt.setString(2, memberPw);
-	ResultSet rs = pwStmt.executeQuery();
+	String targetUrl = "/cash/updateCashForm.jsp";
 	
-	String targetPage = "/cash/updateCashForm.jsp";
-	String memberName = null;
-	
-	while(rs.next()) {
-		memberName = rs.getString("memberName"); 
-		if(memberName!=null){
-			System.out.println("비밀번호 확인 성공");
-			
-			// 업데이트 쿼리
-			String sql = null;
-			PreparedStatement stmt = null;
-			sql = "UPDATE cash SET category_no = ?, cash_price= ?, cash_memo=?, updatedate=CURDATE() WHERE cash_no=? AND member_id = ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, categoryNo);
-			stmt.setLong(2, cashPrice);
-			stmt.setString(3, cashMemo);
-			stmt.setInt(4, cashNo);
-			stmt.setString(5, memberId);
-			
-			int row = stmt.executeUpdate();
-			
-			if(row==1){
-				System.out.println("수정 성공");
-				msg = URLEncoder.encode("내용이 수정되었습니다.", "utf-8");
-				targetPage = "/cash/cashDateList.jsp?msg="+msg+"&year="+year+"&month="+month+"&date="+date;
-			} else {
-				System.out.println("수정 실패");
-				msg = URLEncoder.encode("수정 실패하였습니다.", "utf-8");
-				System.out.println(categoryNo+" "+cashPrice+" "+ cashMemo+" "+ cashNo+" "+ loginMember.getMemberId());
-				targetPage = "/cash/updateCashForm.jsp?msg="+msg+"&cashNo="+cashNo+"&year="+year+"&month="+month+"&date="+date;
-				return;
-			}
-			
-			stmt.close();
-			conn.close();
+	if(memberDao.memberPwck(member)) {
+		System.out.println("비밀번호 확인 성공");
+		// 업데이트
+		int row = 0;
+		row = cashDao.updateCash(cash);
+		if(row==1){
+			System.out.println("수정 성공");
+			msg = URLEncoder.encode("내용이 수정되었습니다.", "utf-8");
+			targetUrl = "/cash/cashDateList.jsp?msg="+msg+"&year="+year+"&month="+month+"&date="+date;
+		} else {
+			System.out.println("수정 실패");
+			msg = URLEncoder.encode("수정 실패하였습니다.", "utf-8");
+			System.out.println(categoryNo+" "+cashPrice+" "+ cashMemo+" "+ cashNo+" "+ loginMember.getMemberId());
+			targetUrl = "/cash/updateCashForm.jsp?msg="+msg+"&cashNo="+cashNo+"&year="+year+"&month="+month+"&date="+date;
 		}
-	}
-	
-	if(memberName==null){
+	} else {
 		System.out.println("비밀번호 확인 실패");	
 		msg = URLEncoder.encode("비밀번호가 틀렸습니다.", "utf-8");
-		targetPage = "/cash/updateCashForm.jsp?msg="+msg+"&cashNo="+cashNo+"&year="+year+"&month="+month+"&date="+date;
+		targetUrl = "/cash/updateCashForm.jsp?msg="+msg+"&cashNo="+cashNo+"&year="+year+"&month="+month+"&date="+date;
 	}
 	
-	pwStmt.close();
-	rs.close();
-	
-	response.sendRedirect(request.getContextPath()+targetPage);
+	response.sendRedirect(request.getContextPath()+targetUrl);
 	// 3. V
 %>	

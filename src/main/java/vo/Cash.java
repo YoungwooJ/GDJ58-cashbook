@@ -3,7 +3,7 @@ package vo;
 public class Cash {
 	private int cashNo;
 	// private Category category; // INNER JOIN -> Cash타입
-	private int categoryNO;// FK -> INNER JOIN -> Map타입
+	private int categoryNo;// FK -> INNER JOIN -> Map타입
 	private String memberId;
 	private String cashDate;
 	private long cashPrice;
@@ -16,11 +16,11 @@ public class Cash {
 	public void setCashNo(int cashNo) {
 		this.cashNo = cashNo;
 	}
-	public int getCategoryNO() {
-		return categoryNO;
+	public int getCategoryNo() {
+		return categoryNo;
 	}
-	public void setCategoryNO(int categoryNO) {
-		this.categoryNO = categoryNO;
+	public void setCategoryNo(int categoryNo) {
+		this.categoryNo = categoryNo;
 	}
 	public String getMemberId() {
 		return memberId;

@@ -7,7 +7,7 @@
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 	
@@ -77,8 +77,15 @@
 	<div>
 		<!-- 로그인 정보(세션 loginMember 변수) 출력 -->
 		<div><%=loginMember.getMemberName()%>님 반갑습니다.</div>
-		<a href="<%=request.getContextPath()%>/memberOne.jsp?loginMemberId=<%=loginMember.getMemberId()%>">내정보</a>
-		<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
+		<a href="<%=request.getContextPath()%>/member/memberOne.jsp?loginMemberId=<%=loginMember.getMemberId()%>">내정보</a>
+		<a href="<%=request.getContextPath()%>/member/logout.jsp">로그아웃</a>
+		<%
+			if(loginMember.getMemberLevel() > 0){
+		%>
+				<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">관리자 페이지</a>
+		<%
+			}
+		%>
 		</div>
 	<div>
 		<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month-1%>">&#8701;이전달</a>

@@ -9,7 +9,7 @@
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 	
@@ -78,16 +78,16 @@
 	</div>
 	<br><br>
 	<div>
-		<a style="float: left;" href="<%=request.getContextPath()%>/updateMemberPwForm.jsp?memberId=<%=member.getMemberId()%>">비밀번호수정</a>
+		<a style="float: left;" href="<%=request.getContextPath()%>/member/updateMemberPwForm.jsp?memberId=<%=member.getMemberId()%>">비밀번호수정</a>
 	</div>
 	<div>
-		<a style="float: left;" href="<%=request.getContextPath()%>/updateMemberForm.jsp?memberId=<%=member.getMemberId()%>">개인정보수정</a>
+		<a style="float: left;" href="<%=request.getContextPath()%>/member/updateMemberForm.jsp?memberId=<%=member.getMemberId()%>">개인정보수정</a>
 	</div>
 	<div>
-		<a style="float: right;" href="<%=request.getContextPath()%>/deleteMemberForm.jsp?memberId=<%=member.getMemberId()%>">회원탈퇴</a>
+		<a style="float: right;" href="<%=request.getContextPath()%>/member/deleteMemberForm.jsp?memberId=<%=member.getMemberId()%>">회원탈퇴</a>
 	</div>
 	<div>
-		<a style="float: right;" href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
+		<a style="float: right;" href="<%=request.getContextPath()%>/member/logout.jsp">로그아웃</a>
 	</div>
 </body>
 </html>
