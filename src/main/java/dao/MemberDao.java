@@ -1,11 +1,76 @@
 package dao;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import util.DBUtil;
 import vo.Member;
+import vo.Notice;
 
 public class MemberDao {
+	// 관리자 : 멤베레벨수정
+	public int updateMemberLevel(Member member) throws Exception{
+		return 0;
+	}
+	
+	// 관리자 : 멤버수
+	public int selectMemberCount() throws Exception{
+		int count = 0;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = null;
+		PreparedStatement stmt = null;
+		sql = "SELECT COUNT(*) count FROM member";
+		stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			count = rs.getInt("count");
+		}
+		
+		dbUtil.close(rs, stmt, conn);
+		return count;
+	}
+	
+	// 관리자 멤버 리스트
+	public ArrayList<Member> selectMemberListByPage(int beginRow, int rowPerPage) throws Exception{
+		ArrayList<Member> list = new ArrayList<Member>();
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "SELECT member_no memberNo, member_id memberId, member_name memberName, updatedate, createdate"
+					+ " FROM member ORDER BY createdate DESC"
+					+ " LIMIT ?,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Member m = new Member();
+			m.setMemberNo(rs.getInt("memberNo"));
+			m.setMemberId(rs.getString("memberId"));
+			m.setMemberName(rs.getString("memberName"));
+			m.setUpdatedate(rs.getString("Updatedate"));
+			m.setCreatedate(rs.getString("Createdate"));
+			list.add(m);
+		}
+		
+		dbUtil.close(rs, stmt, conn);
+		return list;
+	}
+	
+	// 관리자 멤버 강퇴
+	public int deleteMemberByAdmin(Member member) throws Exception {
+		int row = 0;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = null;
+		PreparedStatement stmt = null;
+		sql = "DELETE FROM member WHERE member_no = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, member.getMemberNo());
+		row = stmt.executeUpdate();
+		dbUtil.close(null, stmt, conn);
+		return row;
+	}
 	
 	// INSERT 회원가입 1) id 중복확인
 	// 반환값 t : 이미 존재 , first 사용가능
@@ -125,6 +190,32 @@ public class MemberDao {
 		row = stmt.executeUpdate();
 		dbUtil.close(null, stmt, conn);
 		return row;
+	}
+	
+	// 회원 정보 조회
+	public Member selectMember(Member paramMember) throws Exception {
+		Member resultMember = null;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = null;
+		PreparedStatement stmt = null;
+		sql = "SELECT member_no memberNo, member_id memberId, member_name memberName, updatedate, createdate, member_level memberLevel FROM member WHERE member_no = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, paramMember.getMemberNo());
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			System.out.println("success");
+			resultMember = new Member(); 
+			resultMember.setMemberNo(rs.getInt("memberNo"));
+			resultMember.setMemberId(rs.getString("memberId"));
+			resultMember.setMemberName(rs.getString("memberName"));
+			resultMember.setUpdatedate(rs.getString("updatedate"));
+			resultMember.setCreatedate(rs.getString("createdate"));
+			resultMember.setMemberLevel(rs.getInt("memberLevel"));
+		}	
+		
+		dbUtil.close(rs, stmt, conn);
+		return resultMember;
 	}
 	
 	// 회원 정보 조회
