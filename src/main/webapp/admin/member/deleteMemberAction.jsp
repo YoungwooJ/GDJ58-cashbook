@@ -61,13 +61,13 @@
 		System.out.println(row + "<-- deleteMemberAction.jsp");
 		if(row == 1){
 			System.out.println("회원 탈퇴 성공");
-			msg = URLEncoder.encode("공지사항이 수정되었습니다.", "utf-8");
+			msg = URLEncoder.encode("회원이 강제 탈퇴되었습니다.", "utf-8");
 			// 디버깅 코드
 			System.out.println(memberNo + "<-- deleteMemberAction.jsp");
 			redirectUrl = "/admin/member/memberList.jsp?msg="+msg;
 		} else {
 			System.out.println("회원 탈퇴 실패");
-			msg = URLEncoder.encode("공지사항 수정에 실패하였습니다.", "utf-8");
+			msg = URLEncoder.encode("회원 강제 탈퇴에 실패하였습니다.", "utf-8");
 			// 디버깅 코드
 			System.out.println(memberNo + "<-- deleteMemberAction.jsp");
 			redirectUrl = "/admin/member/deleteMemberForm.jsp?memberNo="+memberNo+"&msg="+msg;

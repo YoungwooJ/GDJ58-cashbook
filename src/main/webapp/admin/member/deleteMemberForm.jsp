@@ -48,9 +48,15 @@
 		<input type="hidden" name="memberNo" value="<%=memberNo%>">
 		<table>
 			<tr>
+				<th>회원번호</th>
+				<td>
+					<input type="text" name="memberNo" value="<%=memberNo%>">
+				</td>
+			</tr>
+			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="number" name="adminPw" value="">
+					<input type="password" name="adminPw" value="">
 				</td>
 			</tr>
 		</table>
