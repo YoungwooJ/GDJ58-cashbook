@@ -28,6 +28,7 @@
 		<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp">공지관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">카테고리관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/member/memberList.jsp">멤버관리(목록, 레벨수정, 강제탈퇴)</a></li>
+		<li><a href="<%=request.getContextPath()%>/cash/cashList.jsp">가계부</a></li>
 	</ul>
 	<div>
 		<!-- categoryList contents... -->
@@ -41,7 +42,6 @@
 		<%		
 			}
 		%>
-		<a href="<%=request.getContextPath()%>/admin/category/insertCategoryForm.jsp">카테고리 추가</a>
 		<table>
 			<tr>
 				<th>번호</th>
@@ -73,6 +73,8 @@
 				}
 			%>
 		</table>
+		<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">이전</a>
+		<a href="<%=request.getContextPath()%>/admin/category/insertCategoryForm.jsp">카테고리 추가</a>
 	</div>
 </body>
 </html>

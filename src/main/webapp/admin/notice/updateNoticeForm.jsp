@@ -15,6 +15,8 @@
 	String msg = null;
 	int noticeNo = 0;
 	
+	int currentPage = 0;
+	
 	// 방어코드
 	if(request.getParameter("noticeNo")== null || request.getParameter("noticeNo").equals("")){
 		msg = URLEncoder.encode("오류입니다.", "utf-8");
@@ -22,6 +24,13 @@
 		return;
 	} else {
 		noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+	}
+	if(request.getParameter("currentPage")== null || request.getParameter("currentPage").equals("")){
+		msg = URLEncoder.encode("오류입니다.", "utf-8");
+		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList?msg="+msg);
+		return;
+	} else {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	
 	Notice notice = new Notice();
@@ -50,6 +59,7 @@
 	<div>
 		<!-- notice 정보 출력 -->
 		<form action="<%=request.getContextPath()%>/admin/notice/updateNoticeAction.jsp" method="post">
+		<input type="hidden" name="currentPage" value="<%=currentPage%>">
 		<table border="1">
 			<tr>
 				<th>공지 번호</th>
@@ -76,6 +86,7 @@
 				</td>
 			</tr>
 		</table>
+		<a href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=<%=currentPage%>">이전</a>
 		<button type="submit">수정</button>
 		</form>
 	</div>

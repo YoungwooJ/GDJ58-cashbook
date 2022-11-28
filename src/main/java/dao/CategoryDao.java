@@ -97,7 +97,7 @@ public class CategoryDao {
 	// UPDATE admin -> updateCategoryForm.jsp
 	public Category selectCategoryOne(int categoryNo) throws Exception {
 		Category category = null;
-		String sql = "SELECT category_no categoryNo, category_name categoryName"
+		String sql = "SELECT category_no categoryNo, category_kind categoryKind, category_name categoryName"
 					+" FROM category"
 					+" WHERE category_no = ?";
 		
@@ -113,6 +113,7 @@ public class CategoryDao {
 		if(rs.next()) {
 			category = new Category();
 			category.setCategoryNo(rs.getInt("categoryNo"));
+			category.setCategoryKind(rs.getString("categoryKind"));
 			category.setCategoryName(rs.getString("categoryName"));
 		}
 		

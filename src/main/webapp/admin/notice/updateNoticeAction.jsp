@@ -16,17 +16,26 @@
 	int noticeNo = 0;
 	String noticeMemo = null;
 	
+	int currentPage = 0;
+	
 	// 방어코드
+	if(request.getParameter("currentPage")== null || request.getParameter("currentPage").equals("")){
+		msg = URLEncoder.encode("오류입니다.", "utf-8");
+		response.sendRedirect(request.getContextPath()+"/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg+"&currentPage="+currentPage);
+		return;
+	} else {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
 	if(request.getParameter("noticeNo")== null || request.getParameter("noticeNo").equals("")){
 		msg = URLEncoder.encode("오류입니다.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg+"&currentPage="+currentPage);
 		return;
 	} else {
 		noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 	}
 	if(request.getParameter("noticeMemo")== null || request.getParameter("noticeMemo").equals("")){
 		msg = URLEncoder.encode("메모를 입력하세요.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg+"&currentPage="+currentPage);
 		return;
 	} else {
 		noticeMemo = request.getParameter("noticeMemo");
@@ -50,14 +59,14 @@
 		// 디버깅 코드
 		System.out.println(noticeNo + "<-- updateNoticeAction.jsp");
 		System.out.println(noticeMemo + "<-- updateNoticeAction.jsp");
-		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg;
+		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg+"&currentPage="+currentPage;
 	} else {
 		System.out.println("수정 실패");
 		msg = URLEncoder.encode("공지사항 수정에 실패하였습니다.", "utf-8");
 		// 디버깅 코드
 		System.out.println(noticeNo + "<-- updateNoticeAction.jsp");
 		System.out.println(noticeMemo + "<-- updateNoticeAction.jsp");
-		redirectUrl = "/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg;
+		redirectUrl = "/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg+"&currentPage="+currentPage;
 	}
 
 	// redirect

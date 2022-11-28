@@ -41,6 +41,7 @@
 					<td><input type="password" name="memberPw"></td>
 				</tr>
 			</table>
+			<a href="<%=request.getContextPath()%>/member/loginForm.jsp">이전</a>
 			<button type="submit">회원가입</button>
 		</form>
 	</div>

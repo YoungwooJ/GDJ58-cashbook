@@ -15,10 +15,19 @@
 	String msg = null;
 	int noticeNo = 0;
 	
+	int currentPage = 0;
+	
 	// 방어코드
+	if(request.getParameter("currentPage")== null || request.getParameter("currentPage").equals("")){
+		msg = URLEncoder.encode("오류입니다.", "utf-8");
+		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList.jsp?msg="+msg+"&currentPage="+currentPage);
+		return;
+	} else {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
 	if(request.getParameter("noticeNo")== null || request.getParameter("noticeNo").equals("")){
 		msg = URLEncoder.encode("오류입니다.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList.jsp?msg="+msg+"&currentPage="+currentPage);
 		return;
 	} else {
 		noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
@@ -40,13 +49,13 @@
 		msg = URLEncoder.encode("공지사항이 삭제되었습니다.", "utf-8");
 		// 디버깅 코드
 		System.out.println(noticeNo + "<-- deleteNoticeAction.jsp");
-		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg;
+		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg+"&currentPage="+currentPage;
 	} else {
 		System.out.println("삭제 실패");
 		msg = URLEncoder.encode("공지사항 삭제에 실패하였습니다.", "utf-8");
 		// 디버깅 코드
 		System.out.println(noticeNo + "<-- delteNoticeAction.jsp");
-		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg;
+		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg+"&currentPage="+currentPage;
 	}
 
 	// redirect

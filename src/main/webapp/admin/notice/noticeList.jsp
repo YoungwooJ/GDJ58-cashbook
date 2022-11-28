@@ -42,6 +42,7 @@
 		<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp">공지관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">카테고리관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/member/memberList.jsp">멤버관리(목록, 레벨수정, 강제탈퇴)</a></li>
+		<li><a href="<%=request.getContextPath()%>/cash/cashList.jsp">가계부</a></li>
 	</ul>
 	<div>
 		<!-- notice contents... -->
@@ -59,8 +60,8 @@
 				<tr>
 					<td><%=n.getNoticeMemo()%></td>
 					<td><%=n.getCreatedate()%></td>
-					<td><a href="<%=request.getContextPath()%>/admin/notice/updateNoticeForm.jsp?noticeNo=<%=n.getNoticeNo()%>">수정</a></td>
-					<td><a href="<%=request.getContextPath()%>/admin/notice/deleteNoticeAction.jsp?noticeNo=<%=n.getNoticeNo()%>">삭제</a></td>
+					<td><a href="<%=request.getContextPath()%>/admin/notice/updateNoticeForm.jsp?noticeNo=<%=n.getNoticeNo()%>&currentPage=<%=currentPage%>">수정</a></td>
+					<td><a href="<%=request.getContextPath()%>/admin/notice/deleteNoticeAction.jsp?noticeNo=<%=n.getNoticeNo()%>&currentPage=<%=currentPage%>">삭제</a></td>
 				</tr>
 			<%		
 				}
@@ -106,6 +107,7 @@
 					</td>
 				</tr>
 			</table>			
+			<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">이전</a>
 			<button type="submit">입력</button>
 		</form>
 	</div>

@@ -149,6 +149,7 @@
 				<td><input type="password" name="memberPw"></td>
 			</tr>
 		</table>
+		<a href="<%=request.getContextPath()%>/cash/cashDateList.jsp?year=<%=year%>&month=<%=month%>&date=<%=date%>">이전</a>
 		<button type="submit">수정</button>
 		</form>
 	</div>

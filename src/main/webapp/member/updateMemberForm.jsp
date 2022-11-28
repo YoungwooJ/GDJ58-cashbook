@@ -76,6 +76,7 @@
 				</td>
 			</tr>
 		</table>
+		<a href="<%=request.getContextPath()%>/member/memberOne.jsp">이전</a>
 		<button type="submit">변경</button>
 	</form>
 </body>

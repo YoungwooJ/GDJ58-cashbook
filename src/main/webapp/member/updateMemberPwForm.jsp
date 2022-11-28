@@ -81,6 +81,7 @@
 				</td>
 			</tr>
 		</table>
+		<a href="<%=request.getContextPath()%>/member/memberOne.jsp">이전</a>
 		<button style="float: right;" type="submit">비밀번호 변경</button>
 	</form>
 </body>

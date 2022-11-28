@@ -42,6 +42,7 @@
 					<td><input type="text" name="categoryName"></td>
 				</tr>
 			</table>
+			<a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">이전</a>
 			<button type="submit">추가</button>
 		</div>
 	</form>

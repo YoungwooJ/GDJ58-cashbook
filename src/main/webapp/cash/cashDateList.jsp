@@ -161,6 +161,7 @@
 					</td>
 				</tr>
 			</table>			
+			<a href="<%=request.getContextPath()%>/cash/cashList.jsp">이전</a>
 			<button type="submit">입력</button>
 		</form>
 	</div>

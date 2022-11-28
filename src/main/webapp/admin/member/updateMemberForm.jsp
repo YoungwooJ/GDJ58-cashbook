@@ -124,6 +124,7 @@
 				</td>
 			</tr>
 		</table>
+		<a href="<%=request.getContextPath()%>/admin/member/memberList.jsp">이전</a>
 		<button type="submit">수정</button>
 		</form>
 	</div>

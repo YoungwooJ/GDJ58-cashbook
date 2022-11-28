@@ -62,10 +62,24 @@
 				</tr>
 				<tr>
 					<th>수입/지출</th>
-					<td>
-						<input type="radio" name="categoryKind" value="수입">수입
-						<input type="radio" name="categoryKind" value="지출">지출
-					</td>
+					<%
+						String categoryKind = (String)(category.getCategoryKind());
+						if(categoryKind.equals("수입")){
+					%>
+							<td>
+								<input type="radio" name="categoryKind" value="수입" checked="checked">수입
+								<input type="radio" name="categoryKind" value="지출">지출
+							</td>
+					<%
+						} else {
+					%>
+							<td>
+								<input type="radio" name="categoryKind" value="수입">수입
+								<input type="radio" name="categoryKind" value="지출" checked="checked">지출
+							</td>
+					<%		
+						}
+					%>
 				</tr>
 				<tr>
 					<th>이름</th>
@@ -74,6 +88,7 @@
 					</td>
 				</tr>
 			</table>
+			<a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">이전</a>
 			<button type="submit">수정</button>
 		</form>
 	</div>

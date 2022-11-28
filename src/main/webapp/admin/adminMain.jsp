@@ -26,6 +26,7 @@
 		<li><a href="<%=request.getContextPath()%>/admin/">고객센터관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">카테고리관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/member/memberList.jsp">멤버관리(목록, 레벨수정, 강제탈퇴)</a></li>
+		<li><a href="<%=request.getContextPath()%>/cash/cashList.jsp">가계부</a></li>
 	</ul>
 	<div>
 		<!-- adminMain contents... -->
