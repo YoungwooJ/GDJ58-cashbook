@@ -38,10 +38,19 @@
 <title>updateNoticeForm</title>
 </head>
 <body>
+	<!-- msg 파라메타값이 있으면 출력 -->
+	<%
+		msg = request.getParameter("msg");
+		if(request.getParameter("msg") != null) {
+	%>
+			<div><%=msg%></div>
+	<%		
+		}
+	%>
 	<div>
 		<!-- notice 정보 출력 -->
 		<form action="<%=request.getContextPath()%>/admin/notice/updateNoticeAction.jsp" method="post">
-		<table>
+		<table border="1">
 			<tr>
 				<th>공지 번호</th>
 				<td>

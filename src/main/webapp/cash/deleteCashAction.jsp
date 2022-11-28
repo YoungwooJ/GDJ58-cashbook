@@ -22,6 +22,8 @@
 	// 알림 메시지
 	String msg = null;
 	
+	request.setCharacterEncoding("UTF-8");
+	
 	// 방어코드
 	if(request.getParameter("year")== null 
 			|| request.getParameter("month")== null

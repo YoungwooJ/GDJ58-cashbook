@@ -1,11 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ page import="dao.*" %>
+<%@ page import="vo.*" %>
+<%@ page import="java.net.URLEncoder" %>
+<%
+	//1. Controller
+	Member loginMember = (Member)session.getAttribute("loginMember");
+	if(loginMember == null || loginMember.getMemberLevel() < 1){
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
+		return;
+	}
+	
+	request.setCharacterEncoding("UTF-8");
+	
+	// 알림 메시지
+	String msg = null;
+	
+	int memberNo = 0;
+	int memberLevel = 0;
+	
+	// 방어코드
+	if(request.getParameter("memberNo")== null || request.getParameter("memberNo").equals("")){
+		msg = URLEncoder.encode("오류입니다.", "utf-8");
+		response.sendRedirect(request.getContextPath()+"/admin/member/updateMemberForm.jsp?memberNo="+memberNo+"&msg="+msg);
+		return;
+	} else {
+		memberNo = Integer.parseInt(request.getParameter("memberNo"));
+	}
+	if(request.getParameter("memberLevel")== null || request.getParameter("memberLevel").equals("")){
+		msg = URLEncoder.encode("레벨값이 없습니다.", "utf-8");
+		response.sendRedirect(request.getContextPath()+"/admin/notice/updateMemberForm.jsp?memberNo="+memberNo+"&msg="+msg);
+		return;
+	} else {
+		memberLevel = Integer.parseInt(request.getParameter("memberLevel"));
+	}
+	
+	Member member = new Member();
+	member.setMemberNo(memberNo);
+	
+	// 디버깅 코드
+	System.out.println(memberNo);
+	System.out.println(memberLevel);
 
-</body>
-</html>
+	String redirectUrl = "/admin/member/memberList.jsp";
+	
+	// 2. Model 호출
+	MemberDao memberDao = new MemberDao();
+	
+	// 내역 삭제
+	int row = memberDao.updateMemberLevel(member, memberLevel);
+	// 디버깅 코드
+	System.out.println(row + "<-- updateMemberAction.jsp");
+	if(row == 1){
+		System.out.println("회원 등급 변경 성공");
+		msg = URLEncoder.encode("회원 등급이 변경되었습니다.", "utf-8");
+		// 디버깅 코드
+		System.out.println(memberNo + "<-- updateMemberAction.jsp");
+		System.out.println(memberLevel + "<-- updateMemberAction.jsp");
+		redirectUrl = "/admin/member/memberList.jsp?msg="+msg;
+	} else {
+		System.out.println("회원 등급 변경 실패");
+		msg = URLEncoder.encode("회원 등급 변경에 실패하였습니다.", "utf-8");
+		// 디버깅 코드
+		System.out.println(memberNo + "<-- updateMemberAction.jsp");
+		System.out.println(memberLevel + "<-- updateMemberAction.jsp");
+		redirectUrl = "/admin/member/updateMemberForm.jsp?memberNo="+memberNo+"&msg="+msg;
+	}
+
+	// redirect
+	response.sendRedirect(request.getContextPath()+redirectUrl);
+%>

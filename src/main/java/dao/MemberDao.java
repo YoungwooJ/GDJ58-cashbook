@@ -9,8 +9,20 @@ import vo.Notice;
 
 public class MemberDao {
 	// 관리자 : 멤베레벨수정
-	public int updateMemberLevel(Member member) throws Exception{
-		return 0;
+	public int updateMemberLevel(Member member, int memberLevel) throws Exception{
+		int row = 0;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = null;
+		PreparedStatement stmt = null;
+		sql = "UPDATE member SET member_level = ?, updatedate = CURDATE() WHERE member_no = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, memberLevel);
+		stmt.setInt(2, member.getMemberNo());
+		row = stmt.executeUpdate();
+		
+		dbUtil.close(null, stmt, conn);
+		return row;
 	}
 	
 	// 관리자 : 멤버수
@@ -36,7 +48,7 @@ public class MemberDao {
 		ArrayList<Member> list = new ArrayList<Member>();
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String sql = "SELECT member_no memberNo, member_id memberId, member_name memberName, updatedate, createdate"
+		String sql = "SELECT member_no memberNo, member_id memberId, member_level memberLevel, member_name memberName, updatedate, createdate"
 					+ " FROM member ORDER BY createdate DESC"
 					+ " LIMIT ?,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -47,6 +59,7 @@ public class MemberDao {
 			Member m = new Member();
 			m.setMemberNo(rs.getInt("memberNo"));
 			m.setMemberId(rs.getString("memberId"));
+			m.setMemberLevel(rs.getInt("memberLevel"));
 			m.setMemberName(rs.getString("memberName"));
 			m.setUpdatedate(rs.getString("Updatedate"));
 			m.setCreatedate(rs.getString("Createdate"));

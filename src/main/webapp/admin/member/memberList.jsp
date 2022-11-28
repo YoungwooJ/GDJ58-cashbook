@@ -9,6 +9,10 @@
 		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
+	
+	request.setCharacterEncoding("UTF-8");
+	String msg = null;
+	
 	Member member = new Member();
 	
 	// 2. Model 호출
@@ -40,12 +44,21 @@
 <body>
 	<ul>
 		<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp">공지관리</a></li>
-		<li><a href="<%=request.getContextPath()%>/admin/category/castegoryList.jsp">카테고리관리</a></li>
+		<li><a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">카테고리관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/member/memberList.jsp">멤버관리(목록, 레벨수정, 강제탈퇴)</a></li>
 	</ul>
 	<div>
 		<!-- memberList contents... -->
 		<h1>멤버 목록</h1>
+		<!-- msg 파라메타값이 있으면 출력 -->
+		<%
+			msg = request.getParameter("msg");
+			if(request.getParameter("msg") != null) {
+		%>
+				<div><%=msg%></div>
+		<%		
+			}
+		%>
 		<table>
 			<tr>
 				<th>멤버번호</th>

@@ -33,6 +33,15 @@
 <title>deleteMemberForm</title>
 </head>
 <body>
+	<!-- msg 파라메타값이 있으면 출력 -->
+	<%
+		msg = request.getParameter("msg");
+		if(request.getParameter("msg") != null) {
+	%>
+			<div><%=msg%></div>
+	<%		
+		}
+	%>
 	<div>
 		<!-- 비밀번호 확인 -->
 		<form action="<%=request.getContextPath()%>/admin/member/deleteMemberAction.jsp?memberNo=<%=memberNo%>" method="post">

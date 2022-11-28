@@ -40,13 +40,12 @@
 <body>
 	<ul>
 		<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp">공지관리</a></li>
-		<li><a href="<%=request.getContextPath()%>/admin/category/castegoryList.jsp">카테고리관리</a></li>
+		<li><a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">카테고리관리</a></li>
 		<li><a href="<%=request.getContextPath()%>/admin/member/memberList.jsp">멤버관리(목록, 레벨수정, 강제탈퇴)</a></li>
 	</ul>
 	<div>
 		<!-- notice contents... -->
 		<h1>공지</h1>
-		<a href="">공지입력</a>
 		<table border="1">
 			<tr>
 				<th>공지내용</th>
@@ -101,7 +100,7 @@
 		<form action="<%=request.getContextPath()%>/admin/notice/insertNoticeAction.jsp" method="post">
 			<table border="1">
 				<tr>
-					<td>메모</td>
+					<td>내용</td>
 					<td>
 						<textarea rows="3" cols="50" name="noticeMemo"></textarea>
 					</td>

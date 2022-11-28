@@ -26,7 +26,7 @@
 			|| request.getParameter("memberId").equals("") 
 			|| request.getParameter("memberPw").equals("")
 			|| request.getParameter("newMemberPw").equals("")){
-		msg = URLEncoder.encode("변경할 비밀번호를 입력하세요.", "utf-8");
+		msg = URLEncoder.encode("비밀번호를 입력하세요.", "utf-8");
 		response.sendRedirect(request.getContextPath()+"/member/updateMemberPwForm.jsp?msg="+msg);
 		return;
 	}

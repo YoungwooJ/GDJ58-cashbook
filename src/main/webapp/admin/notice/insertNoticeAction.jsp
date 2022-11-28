@@ -18,7 +18,7 @@
 	// 방어코드
 	if(request.getParameter("noticeMemo")== null || request.getParameter("noticeMemo").equals("")){
 		msg = URLEncoder.encode("메모를 입력하세요.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList.jsp?msg="+msg);
 		return;
 	} else {
 		noticeMemo = request.getParameter("noticeMemo");

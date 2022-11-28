@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
-<%@ page import="java.util.*" %>
 <%@ page import="java.net.URLEncoder" %>
 <%
 	// 1. Controller
@@ -43,6 +42,15 @@
 </head>
 <body>
 	<div>
+		<!-- msg 파라메타값이 있으면 출력 -->
+		<%
+			msg = request.getParameter("msg");
+			if(request.getParameter("msg") != null) {
+		%>
+				<div><%=msg%></div>
+		<%		
+			}
+		%>
 		<!-- 비밀번호 확인 -->
 		<form action="<%=request.getContextPath()%>/admin/member/updateMemberAction.jsp?memberNo=<%=memberNo%>" method="post">
 		<input type="hidden" name="memberNo" value="<%=memberNo%>">
@@ -79,26 +87,41 @@
 			</tr>
 			<tr>	
 				<th>회원 레벨</th>
-				<select name="memberLevel">
-					<option value="<%=(Integer)(member.getMemberLevel())%>">
-					<%
-						if(member.getMemberLevel() == 1){
-					%>
-							관리자
-					<%
-						} else {
-					%>
-							일반회원
-					<%
-						}
-					%>
-					</option>
-					<option>
-					<%
-						
-					%>
-					</option>
-				</select>
+				<td>
+					<select name="memberLevel">
+						<!-- option 선택지 -->
+						<%
+							if((Integer)(member.getMemberLevel()) == 1){
+						%>
+								<option value="<%=1%>">
+								관리자
+								</option>
+						<%
+							} else {
+						%>
+								<option value="<%=0%>">
+								일반회원
+								</option>
+						<%
+							}
+						%>
+						<%
+							if((Integer)(member.getMemberLevel()) != 1){
+						%>
+								<option value="<%=1%>">
+								관리자
+								</option>
+						<%
+							} else {
+						%>
+								<option value="<%=0%>">
+								일반회원
+								</option>
+						<%
+							}
+						%>
+					</select>
+				</td>
 			</tr>
 		</table>
 		<button type="submit">수정</button>

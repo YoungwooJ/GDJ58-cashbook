@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
-<%@ page import="java.util.*" %>
 <%@ page import="vo.*"%>
+<%@ page import="dao.*"%>
+<%@ page import="java.net.URLEncoder" %>
 <%
 	// 1. C
 	// session 유효성 검증 코드 후 필요하다면 redirect!
@@ -20,6 +21,16 @@
 	Object objLoginMember = session.getAttribute("loginMember");
 	Member loginMember = (Member)objLoginMember;
 	//System.out.println(loginMember);
+	
+	Member paramMember = new Member();
+	paramMember.setMemberId(loginMember.getMemberId());
+	
+	Member member = new Member();
+	
+	// 2. M 호출
+	// 쿼리
+	MemberDao memberDao = new MemberDao();
+	member = memberDao.selectMemberInfo(paramMember);
 %>
 <!DOCTYPE html>
 <html>
@@ -43,13 +54,13 @@
 			<tr>
 				<td>아이디</td>
 				<td>
-					<input type="text" name="memberId" value="<%=loginMember.getMemberId()%>" readonly="readonly">
+					<input type="text" name="memberId" value="<%=member.getMemberId()%>" readonly="readonly">
 				</td>
 			</tr>
 			<tr>
 				<td>기존 닉네임</td>
 				<td>
-					<input type="text" name="memberName" value="<%=loginMember.getMemberName()%>" readonly="readonly">
+					<input type="text" name="memberName" value="<%=member.getMemberName()%>" readonly="readonly">
 				</td>
 			</tr>
 			<tr>

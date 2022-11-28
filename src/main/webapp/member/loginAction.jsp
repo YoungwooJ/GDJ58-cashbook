@@ -20,7 +20,7 @@
 			|| request.getParameter("memberId").equals("") 
 			|| request.getParameter("memberPw").equals("")){
 		msg = URLEncoder.encode("정보를 입력하세요.", "utf-8"); // get 방식 주소창에 문자열 인코딩 
-		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp?msg="+msg);
 		return;
 	}
 	

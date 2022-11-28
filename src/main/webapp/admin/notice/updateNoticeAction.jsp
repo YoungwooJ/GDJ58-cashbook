@@ -19,14 +19,14 @@
 	// 방어코드
 	if(request.getParameter("noticeNo")== null || request.getParameter("noticeNo").equals("")){
 		msg = URLEncoder.encode("오류입니다.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/notice/updateNoticeForm.jsp?msg"+msg);
+		response.sendRedirect(request.getContextPath()+"/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg);
 		return;
 	} else {
 		noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 	}
 	if(request.getParameter("noticeMemo")== null || request.getParameter("noticeMemo").equals("")){
 		msg = URLEncoder.encode("메모를 입력하세요.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/notice/updateNoticeForm.jsp?msg"+msg);
+		response.sendRedirect(request.getContextPath()+"/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg);
 		return;
 	} else {
 		noticeMemo = request.getParameter("noticeMemo");
@@ -57,7 +57,7 @@
 		// 디버깅 코드
 		System.out.println(noticeNo + "<-- updateNoticeAction.jsp");
 		System.out.println(noticeMemo + "<-- updateNoticeAction.jsp");
-		redirectUrl = "/admin/notice/updateNoticeForm.jsp?msg"+msg;
+		redirectUrl = "/admin/notice/updateNoticeForm.jsp?noticeNo="+noticeNo+"&msg="+msg;
 	}
 
 	// redirect

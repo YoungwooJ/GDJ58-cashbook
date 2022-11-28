@@ -14,6 +14,7 @@
 		return;
 	}
 	
+	// 알림 메시지
 	String msg = null;
 	
 	request.setCharacterEncoding("UTF-8");
@@ -48,7 +49,7 @@
 	|| request.getParameter("cashPrice") == null || request.getParameter("cashPrice").equals("")
 	|| request.getParameter("cashMemo") == null || request.getParameter("cashMemo").equals("")) {
 		msg = URLEncoder.encode("내용을 입력하세요.", "utf-8"); // get 방식 주소창에 문자열 인코딩 
-		response.sendRedirect(request.getContextPath()+"/cash/cashDateList.jsp?msg="+msg+"&year="+year+"&month="+month+"date"+date);
+		response.sendRedirect(request.getContextPath()+"/cash/cashDateList.jsp?msg="+msg+"&year="+year+"&month="+month+"&date="+date);
 		return;
 	}
 	
@@ -69,14 +70,20 @@
 	CashDao cashDao = new CashDao();
 	int row = cashDao.insertCash(cash);
 	
+	String redirectUrl = "/cash/cashDateList.jsp";	
+	
 	// 디버깅 코드
 	if(row == 1) {
 		System.out.println("입력성공");
+		msg = URLEncoder.encode("내역이 입력되었습니다.", "utf-8");
+		redirectUrl = "/cash/cashDateList.jsp?msg="+msg+"&year="+year+"&month="+month+"&date="+date;
 	} else {
 		System.out.println("입력실패");
+		msg = URLEncoder.encode("내역 입력이 실패하였습니다.", "utf-8");
+		redirectUrl = "/cash/cashDateList.jsp?msg="+msg+"&year="+year+"&month="+month+"&date="+date;
 	}
 	System.out.println("입력된 데이터 값: "+ categoryNo + " " + memberId + " " + cashDate + " " + cashPrice + " " + cashMemo + "<--- insertCashAction.jsp");
 	
 	// 3. V
-	response.sendRedirect(request.getContextPath()+"/cash/cashDateList.jsp?year="+year+"&month="+month+"&date="+date);
+	response.sendRedirect(request.getContextPath()+redirectUrl);
 %>

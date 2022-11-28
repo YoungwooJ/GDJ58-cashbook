@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
-<%@ page import="java.util.*" %>
 <%@ page import="vo.*"%>
-<%@ page import="util.*"%>
+<%@ page import="dao.*"%>
 <%@ page import="java.net.URLEncoder" %>
 <%
 	// 1. C
@@ -23,26 +22,15 @@
 	Member loginMember = (Member)objLoginMember;
 	//System.out.println(loginMember);
 	
-	// 2. M
+	Member paramMember = new Member();
+	paramMember.setMemberId(loginMember.getMemberId());
 	
-	// db연결
-	DBUtil dbUtil = new DBUtil();
-	Connection conn = dbUtil.getConnection();
+	Member member = new Member();
 	
+	// 2. M 호출
 	// 쿼리
-	String sql = null;
-	PreparedStatement stmt = null;
-	sql = "SELECT member_id memberId, member_pw memberPw, member_name memberName FROM member WHERE member_id = ?";
-	stmt = conn.prepareStatement(sql);
-	stmt.setString(1, loginMember.getMemberId());
-	ResultSet rs = stmt.executeQuery();
-	Member member = null;
-	if(rs.next()){
-		member = new Member();
-		member.setMemberId(rs.getString("memberId"));
-		member.setMemberPw(rs.getString("memberPw"));
-		member.setMemberName(rs.getString("memberName"));
-	}
+	MemberDao memberDao = new MemberDao();
+	member = memberDao.selectMemberInfo(paramMember);
 %>
 <!DOCTYPE html>
 <html>
@@ -70,6 +58,23 @@
 		<tr>
 			<td>회원이름</td>
 			<td><%=member.getMemberName()%></td>
+		</tr>
+		<tr>
+			<td>회원등급</td>
+			<td>
+				<%
+					int memberLevel = (Integer)(member.getMemberLevel());
+					if(memberLevel == 0){
+				%>
+						일반회원
+				<%
+					} else {
+				%>
+						관리자
+				<%
+					}
+				%>
+			</td>
 		</tr>
 	</table>
 	<br><br>
