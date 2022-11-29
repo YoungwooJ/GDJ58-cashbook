@@ -14,11 +14,20 @@
 	request.setCharacterEncoding("UTF-8");
 	String msg = null;
 	String noticeMemo = null;
+
+	int currentPage = 0;
 	
 	// 방어코드
+	if(request.getParameter("currentPage")== null || request.getParameter("currentPage").equals("")){
+		msg = URLEncoder.encode("메모를 입력하세요.", "utf-8");
+		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList.jsp?msg="+msg+"&currentPage="+currentPage);
+		return;
+	} else {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
 	if(request.getParameter("noticeMemo")== null || request.getParameter("noticeMemo").equals("")){
 		msg = URLEncoder.encode("메모를 입력하세요.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList.jsp?msg="+msg+"&currentPage="+currentPage);
 		return;
 	} else {
 		noticeMemo = request.getParameter("noticeMemo");
@@ -40,13 +49,13 @@
 		msg = URLEncoder.encode("공지사항이 등록되었습니다.", "utf-8");
 		// 디버깅 코드
 		System.out.println(noticeMemo + "<-- insertNoticeAction.jsp");
-		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg;
+		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg+"&currentPage="+currentPage;
 	} else {
 		System.out.println("등록 실패");
 		msg = URLEncoder.encode("공지사항 등록에 실패하였습니다.", "utf-8");
 		// 디버깅 코드
 		System.out.println(noticeMemo + "<-- insertNoticeAction.jsp");
-		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg;
+		redirectUrl = "/admin/notice/noticeList.jsp?msg="+msg+"&currentPage="+currentPage;
 	}
 
 	// redirect

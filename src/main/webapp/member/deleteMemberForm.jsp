@@ -52,5 +52,9 @@
 		<a href="<%=request.getContextPath()%>/member/memberOne.jsp">이전</a>
 		<button type="submit">삭제</button>
 	</form>
+	<!-- footer include -->
+	<div>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>

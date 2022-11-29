@@ -29,7 +29,6 @@
 	ArrayList<Notice> list = noticeDao.selectNoticeListByPage(beginRow, ROW_PER_PAGE);
 	
 	// 3. View
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -38,12 +37,10 @@
 <title>noticeList</title>
 </head>
 <body>
-	<ul>
-		<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp">공지관리</a></li>
-		<li><a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">카테고리관리</a></li>
-		<li><a href="<%=request.getContextPath()%>/admin/member/memberList.jsp">멤버관리(목록, 레벨수정, 강제탈퇴)</a></li>
-		<li><a href="<%=request.getContextPath()%>/cash/cashList.jsp">가계부</a></li>
-	</ul>
+	<!-- header include -->
+	<div>
+		<jsp:include page="/admin/inc/header.jsp"></jsp:include>
+	</div>
 	<div>
 		<!-- notice contents... -->
 		<h1>공지</h1>
@@ -110,6 +107,10 @@
 			<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">이전</a>
 			<button type="submit">입력</button>
 		</form>
+		<!-- footer include -->
+		<div>
+			<jsp:include page="/inc/footer.jsp"></jsp:include>
+		</div>
 	</div>
 </body>
 </html>

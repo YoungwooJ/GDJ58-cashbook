@@ -153,5 +153,9 @@
 		<button type="submit">수정</button>
 		</form>
 	</div>
+	<!-- footer include -->
+	<div>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>

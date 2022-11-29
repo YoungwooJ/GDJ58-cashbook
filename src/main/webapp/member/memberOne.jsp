@@ -94,5 +94,10 @@
 	<div>
 		<a style="float: right;" href="<%=request.getContextPath()%>/member/logout.jsp">로그아웃</a>
 	</div>
+	<br>
+	<!-- footer include -->
+	<div>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>

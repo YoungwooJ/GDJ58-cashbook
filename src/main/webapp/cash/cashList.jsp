@@ -3,7 +3,7 @@
 <%@ page import = "dao.*" %>
 <%@ page import = "java.util.*" %>
 <%
-	// Controller : session, request
+	// 1. Controller : session, request
 	// session 유효성 검증 코드 후 필요하다면 redirect!
 	if(session.getAttribute("loginMember") == null){
 		// 로그인이 되지 않은 상태
@@ -60,12 +60,12 @@
 	int totalTd = beginBlank + lastDate + endBlank;
 	
 	
-	// Model 호출 : 일별 cash 목록
+	// 2. Model 호출 : 일별 cash 목록
 	CashDao cashDao = new CashDao();
 	ArrayList<HashMap<String, Object>> list = cashDao.selectCashListByMonth(loginMember.getMemberId(), year, month+1); // month는 1 더해야 한다
 	
 	
-	// View : 달력출력 + 일별 cash 목록 출력
+	// 3. View : 달력출력 + 일별 cash 목록 출력
 %>
 <!DOCTYPE html>
 <html>
@@ -150,6 +150,10 @@
 				%>
 			</tr>
 		</table>
+	</div>
+	<!-- footer include -->
+	<div>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>

@@ -20,14 +20,14 @@
 	// 방어코드
 	if(request.getParameter("noticeNo")== null || request.getParameter("noticeNo").equals("")){
 		msg = URLEncoder.encode("오류입니다.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList?msg="+msg+"&currentPage="+currentPage);
 		return;
 	} else {
 		noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 	}
 	if(request.getParameter("currentPage")== null || request.getParameter("currentPage").equals("")){
 		msg = URLEncoder.encode("오류입니다.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/admin/notice/noticeList?msg="+msg+"&currentPage="+currentPage);
 		return;
 	} else {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -47,6 +47,10 @@
 <title>updateNoticeForm</title>
 </head>
 <body>
+	<!-- header include -->
+	<div>
+		<jsp:include page="/admin/inc/header.jsp"></jsp:include>
+	</div>
 	<!-- msg 파라메타값이 있으면 출력 -->
 	<%
 		msg = request.getParameter("msg");
@@ -89,6 +93,10 @@
 		<a href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=<%=currentPage%>">이전</a>
 		<button type="submit">수정</button>
 		</form>
+		<!-- footer include -->
+		<div>
+			<jsp:include page="/inc/footer.jsp"></jsp:include>
+		</div>
 	</div>
 </body>
 </html>

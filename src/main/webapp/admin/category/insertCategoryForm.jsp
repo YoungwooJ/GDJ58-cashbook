@@ -18,6 +18,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<!-- header include -->
+	<div>
+		<jsp:include page="/admin/inc/header.jsp"></jsp:include>
+	</div>
 	<!-- msg 파라메타값이 있으면 출력 -->
 	<%
 		String msg = request.getParameter("msg");
@@ -46,5 +50,9 @@
 			<button type="submit">추가</button>
 		</div>
 	</form>
+	<!-- footer include -->
+	<div>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>

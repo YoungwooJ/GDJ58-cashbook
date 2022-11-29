@@ -42,6 +42,10 @@
 <title>updateCategoryForm</title>
 </head>
 <body>
+	<!-- header include -->
+	<div>
+		<jsp:include page="/admin/inc/header.jsp"></jsp:include>
+	</div>
 	<!-- msg 파라메타값이 있으면 출력 -->
 	<%
 		msg = request.getParameter("msg");
@@ -91,6 +95,10 @@
 			<a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">이전</a>
 			<button type="submit">수정</button>
 		</form>
+	</div>
+	<!-- footer include -->
+	<div>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>

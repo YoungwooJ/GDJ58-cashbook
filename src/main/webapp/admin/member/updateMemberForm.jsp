@@ -41,6 +41,10 @@
 <title>updateMemberForm</title>
 </head>
 <body>
+	<!-- header include -->
+	<div>
+		<jsp:include page="/admin/inc/header.jsp"></jsp:include>
+	</div>
 	<div>
 		<!-- msg 파라메타값이 있으면 출력 -->
 		<%
@@ -127,6 +131,10 @@
 		<a href="<%=request.getContextPath()%>/admin/member/memberList.jsp">이전</a>
 		<button type="submit">수정</button>
 		</form>
+		<!-- footer include -->
+		<div>
+			<jsp:include page="/inc/footer.jsp"></jsp:include>
+		</div>
 	</div>
 </body>
 </html>

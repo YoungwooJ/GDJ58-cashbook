@@ -42,12 +42,10 @@
 <title>memberList</title>
 </head>
 <body>
-	<ul>
-		<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp">공지관리</a></li>
-		<li><a href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">카테고리관리</a></li>
-		<li><a href="<%=request.getContextPath()%>/admin/member/memberList.jsp">멤버관리(목록, 레벨수정, 강제탈퇴)</a></li>
-		<li><a href="<%=request.getContextPath()%>/cash/cashList.jsp">가계부</a></li>
-	</ul>
+	<!-- header include -->
+	<div>
+		<jsp:include page="/admin/inc/header.jsp"></jsp:include>
+	</div>
 	<div>
 		<!-- memberList contents... -->
 		<h1>멤버 목록</h1>
@@ -109,6 +107,10 @@
 		<a href="<%=request.getContextPath()%>/admin/member/memberList.jsp?currentPage=<%=lastPage%>" style="text-decoration: none;">마지막</a>
 		<br>
 		<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">이전</a>
+	</div>
+	<!-- footer include -->
+	<div>
+		<jsp:include page="/inc/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>
