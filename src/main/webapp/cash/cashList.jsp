@@ -70,87 +70,121 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>cashList</title>
+	<meta charset="UTF-8">
+	<title>cashList</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 부트스트랩5 CDN -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.css">
+	<style>
+		body {
+			padding:1.5em;
+			background: #f5f5f5;
+		}
+		
+		table {
+			border: 1px #BDBDBD solid;
+			font-size: .9em;
+			box-shadow: 0 2px 5px #BDBDBD;
+			width: 100%;
+			border-collapse: collapse;
+			border-radius: 20px;
+			overflow: hidden;
+		}
+		
+		a {
+			text-decoration: none;
+		}
+	</style>
 </head>
 <body>
+    <!-- header include -->
 	<div>
-		<!-- 로그인 정보(세션 loginMember 변수) 출력 -->
-		<div><%=loginMember.getMemberName()%>님 반갑습니다.</div>
-		<a href="<%=request.getContextPath()%>/member/memberOne.jsp?loginMemberId=<%=loginMember.getMemberId()%>">내정보</a>
-		<a href="<%=request.getContextPath()%>/member/logout.jsp">로그아웃</a>
-		<%
-			if(loginMember.getMemberLevel() > 0){
-		%>
-				<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">관리자 페이지</a>
-		<%
-			}
-		%>
+		<jsp:include page="/inc/header.jsp"></jsp:include>
+	</div>
+    
+    <br><br>
+    
+    <div class="container">
+		<div>
+			<!-- 로그인 정보(세션 loginMember 변수) 출력 -->
+			<div class="alert alert-secondary" role="alert"><%=loginMember.getMemberName()%>님 반갑습니다.</div>
+			<a href="<%=request.getContextPath()%>/member/memberOne.jsp?loginMemberId=<%=loginMember.getMemberId()%>">내정보</a>
+			<a href="<%=request.getContextPath()%>/member/logout.jsp">로그아웃</a>
+			<%
+				if(loginMember.getMemberLevel() > 0){
+			%>
+					<a href="<%=request.getContextPath()%>/admin/adminMain.jsp">관리자 페이지</a>
+			<%
+				}
+			%>
 		</div>
-	<div>
-		<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month-1%>">&#8701;이전달</a>
-		
-		<%=year%>년 <%=month+1%> 월
-		
-		<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month+1%>">다음달&#8702;</a>
-	</div>
-	<div>
-		<!-- 달력 -->
-		<table border="1" width="90%">
-			<tr>
-				<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
-			</tr>
-			<tr>
-				<%
-					for(int i=1; i<=totalTd; i++){
-				%>
-						<td>
-						<%
-							int date = i - beginBlank;
-							if(date>0 && date<= lastDate){
-						%>
-								<div>
-									<a href="<%=request.getContextPath()%>/cash/cashDateList.jsp?year=<%=year%>&month=<%=month+1%>&date=<%=date%>">
-										<%=date%>
-									</a>
-								</div>
-								<div>
-									<%
-										for(HashMap<String, Object> m : list){
-											String cashDate = (String)m.get("cashDate");
-											if(Integer.parseInt(cashDate.substring(8)) == date){
-									%>
-												[<%=(String)m.get("categoryKind")%>]
-												&nbsp;
-												<%=(String)m.get("categoryName")%>
-												&nbsp;
-												<%=(Long)m.get("cashPrice")%>원
-												<br>
-									<%			
-											}		
-										}
-									%>
-								</div>
-						<%
-							} else {
-						%>
-								&nbsp;
-						<%		
+		<div>
+			<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month-1%>">&#8701;이전달</a>
+			
+			<%=year%>년 <%=month+1%> 월
+			
+			<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month+1%>">다음달&#8702;</a>
+		</div>
+		<div>
+			<!-- 달력 -->
+			<table class="table table-border">
+				<tr>
+					<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
+				</tr>
+				<tr>
+					<%
+						for(int i=1; i<=totalTd; i++){
+					%>
+							<td>
+							<%
+								int date = i - beginBlank;
+								if(date>0 && date<= lastDate){
+							%>
+									<div>
+										<a href="<%=request.getContextPath()%>/cash/cashDateList.jsp?year=<%=year%>&month=<%=month+1%>&date=<%=date%>">
+											<%=date%>
+										</a>
+									</div>
+									<div>
+										<%
+											for(HashMap<String, Object> m : list){
+												String cashDate = (String)m.get("cashDate");
+												if(Integer.parseInt(cashDate.substring(8)) == date){
+										%>
+													[<%=(String)m.get("categoryKind")%>]
+													&nbsp;
+													<%=(String)m.get("categoryName")%>
+													&nbsp;
+													<%=(Long)m.get("cashPrice")%>원
+													<br>
+										<%			
+												}		
+											}
+										%>
+									</div>
+							<%
+								} else {
+							%>
+									&nbsp;
+							<%		
+								}
+							%>
+							</td>
+					<%
+					
+							if(i%7 == 0 && i != totalTd){
+					%>
+								</tr><tr> <!-- td7개 만들고 테이블 줄바꿈 -->
+					<%			
 							}
-						%>
-						</td>
-				<%
-				
-						if(i%7 == 0 && i != totalTd){
-				%>
-							</tr><tr> <!-- td7개 만들고 테이블 줄바꿈 -->
-				<%			
 						}
-					}
-				%>
-			</tr>
-		</table>
-	</div>
+					%>
+				</tr>
+			</table>
+		</div>
+	</div>	
 	<!-- footer include -->
 	<div>
 		<jsp:include page="/inc/footer.jsp"></jsp:include>

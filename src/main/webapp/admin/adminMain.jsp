@@ -30,19 +30,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>adminMain</title>
+	<meta charset="UTF-8">
+	<title>adminMain</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 부트스트랩5 CDN -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.css">
+	<style>
+		body {
+			padding:1.5em;
+			background: #f5f5f5;
+		}
+		
+		table {
+			border: 1px #BDBDBD solid;
+			font-size: .9em;
+			box-shadow: 0 2px 5px #BDBDBD;
+			width: 100%;
+			border-collapse: collapse;
+			border-radius: 20px;
+			overflow: hidden;
+		}
+		
+		a {
+			text-decoration: none;
+		}
+	</style>
 </head>
 <body>
 	<!-- header include -->
 	<div>
 		<jsp:include page="/admin/inc/header.jsp"></jsp:include>
 	</div>
-	<div>
+    
+	<div class="container">
 		<!-- adminMain contents... -->
+		<br>
 		<!-- 최근 공지 5개 -->
-		<h3>최근 공지</h3>
-		<table>
+		<h3 style="float:left;"><strong>최근 공지</strong></h3>
+		<table class="table table-border">
 			<tr>
 				<th>내용</th>
 				<th>날짜</th>
@@ -59,9 +86,10 @@
 			%>
 		</table>
 		
+		<br>
 		<!-- 최근 멤버 5명 -->
-		<h3>최근 멤버</h3>
-		<table>
+		<h3 style="float:left;"><strong>최근 멤버</strong></h3>
+		<table class="table table-border">
 			<tr>
 				<th>아이디</th>
 				<th>이름</th>
@@ -82,9 +110,10 @@
 			%>
 		</table>
 		
+		<br>
 		<!-- 최근 문의 5개 -->
-		<h3>최근 문의</h3>
-		<table>
+		<h3 style="float:left;"><strong>최근 문의</strong></h3>
+		<table class="table table-border">
 			<tr>
 				<th>문의내용</th>
 				<th>아이디</th>

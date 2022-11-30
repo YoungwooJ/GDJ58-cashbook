@@ -25,13 +25,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>HelpList</title>
+	<meta charset="UTF-8">
+	<title>HelpList</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 부트스트랩5 CDN -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.css">
+	<style>
+		body {
+			padding:1.5em;
+			background: #f5f5f5;
+		}
+		
+		table {
+			border: 1px #BDBDBD solid;
+			font-size: .9em;
+			box-shadow: 0 2px 5px #BDBDBD;
+			width: 100%;
+			border-collapse: collapse;
+			border-radius: 20px;
+			overflow: hidden;
+		}
+		
+		a {
+			text-decoration: none;
+		}
+	</style>
 </head>
 <body>
+	<!-- header include -->
 	<div>
-		<h1>고객센터</h1>
-		<table border="1">
+		<jsp:include page="/inc/header.jsp"></jsp:include>
+	</div>
+    
+    <br><br>
+    
+	<div class="container">
+		<h3 style="float:left;"><strong>고객센터</strong></h3>
+		<table class="table table-border">
 			<tr>
 				<th>문의번호</th>
 				<th>문의</th>
