@@ -91,7 +91,7 @@
 			padding:1.5em;
 			background: #f5f5f5;
 		}
-		
+		/*
 		table {
 			border: 1px #BDBDBD solid;
 			font-size: .9em;
@@ -101,9 +101,26 @@
 			border-radius: 20px;
 			overflow: hidden;
 		}
-		
+		*/
+		#datepicker{
+			table-layout:fixed;
+			width: 800px;
+		}
+		#dateblock{
+			width: 100px;
+    		height: 100px;
+		}
+		#dateblock:hover{
+			background-color: #EAEAEA;
+			border-radius: 5px;
+		}
 		a {
 			text-decoration: none;
+			color: black;
+		}
+		a:hover{
+			text-decoration: none;
+			color: black;
 		}
 	</style>
 </head>
@@ -523,40 +540,30 @@
 								<div class="card-body d-flex">
 									<div class="align-self-center w-100">
 										<div class="chart">
-											<div id="datetimepicker-dashboard"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
-							<div class="card flex-fill">
-								<div class="card-header">
-
-									<h5 class="card-title mb-0">Calendar</h5>
-								</div>
-								<div class="card-body d-flex">
-									<div class="align-self-center w-100">
-										<div class="chart">
-											<div id="datetimepicker-dashboard"></div>
-											<div>
-												<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month-1%>">&#8701;이전달</a>
-												
-												<%=year%>년 <%=month+1%> 월
-												
-												<a href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month+1%>">다음달&#8702;</a>
-											</div>
+											<!--<div id="datetimepicker-dashboard"></div>-->
+											
 											<div>
 												<!-- 달력 -->
-												<table class="table table-border">
-													<tr>
+												<table id="datepicker" class="table table-borderless">
+													<tr style="text-align: center;">
+														<td id="dateblock">
+															<a style="float:left" href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month-1%>">&#8810;</a>
+														</td>
+														<td colspan="5">
+															<span style="font-size:18px;"><strong><%=year%>년 <%=month+1%> 월</strong></span>
+														</td>
+														<td id="dateblock">
+															<a style="float:right" href="<%=request.getContextPath()%>/cash/cashList.jsp?year=<%=year%>&month=<%=month+1%>">&#8811;</a>
+														</td>
+													</tr>
+													<tr style="text-align: center;">
 														<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>
 													</tr>
 													<tr>
 														<%
 															for(int i=1; i<=totalTd; i++){
 														%>
-																<td>
+																<td id="dateblock">
 																<%
 																	int date = i - beginBlank;
 																	if(date>0 && date<= lastDate){

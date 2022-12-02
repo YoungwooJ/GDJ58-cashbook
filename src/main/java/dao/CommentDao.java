@@ -12,35 +12,57 @@ import vo.Help;
 
 public class CommentDao {
 	// SELECT : updateCommentForm.jsp
-	public Comment selectComment(Comment comment)throws Exception{
+	public Comment selectComment(Comment comment){
 		Comment c = null;
-		DBUtil dbUtil = new DBUtil();
-		Connection conn = dbUtil.getConnection();
-		String sql = "SELECT comment_no commentNo, help_no helpNo, comment_memo commentMemo, member_id memberId, updatedate, createdate"
-					+ " FROM comment"
-					+ " WHERE comment_no=?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, comment.getCommentNo());
-		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
-			c = new Comment();
-			c.setCommentNo(rs.getInt("CommentNo"));
-			c.setHelpNo(rs.getInt("helpNo"));
-			c.setCommentMemo(rs.getString("CommentMemo"));
-			c.setMemberId(rs.getString("memberId"));
-			c.setUpdatedate(rs.getString("updatedate"));
-			c.setCreatedate(rs.getString("createdate"));
+		DBUtil dbUtil = null;
+		String sql = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			sql = "SELECT comment_no commentNo, help_no helpNo, comment_memo commentMemo, member_id memberId, updatedate, createdate"
+				+ " FROM comment"
+				+ " WHERE comment_no=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, comment.getCommentNo());
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				c = new Comment();
+				c.setCommentNo(rs.getInt("CommentNo"));
+				c.setHelpNo(rs.getInt("helpNo"));
+				c.setCommentMemo(rs.getString("CommentMemo"));
+				c.setMemberId(rs.getString("memberId"));
+				c.setUpdatedate(rs.getString("updatedate"));
+				c.setCreatedate(rs.getString("createdate"));
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbUtil.close(rs, stmt, conn);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
-		dbUtil.close(rs, stmt, conn);
 		return c;
 	}
 	
 	// SELECT : 관리자 
-	public ArrayList<HashMap<String, Object>> selectCommentList(int beginRow, int rowPerPage) throws Exception{
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		// SQL 쿼리 적을 때 : FROM -> WHERE -> SELECT -> ORDER BY
-		String sql = "SELECT h.help_no helpNo"
+	public ArrayList<HashMap<String, Object>> selectCommentList(int beginRow, int rowPerPage){
+		ArrayList<HashMap<String, Object>> list = null;
+		DBUtil dbUtil = null;
+		String sql = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			// SQL 쿼리 적을 때 : FROM -> WHERE -> SELECT -> ORDER BY
+			sql = "SELECT h.help_no helpNo"
 				+ "			, h.help_memo helpMemo"
 				+ "			, h.member_id helpMemberId"
 				+ "			, h.updatedate helpUpdatedate"
@@ -53,102 +75,146 @@ public class CommentDao {
 				+ " FROM help h LEFT JOIN COMMENT c"
 				+ " ON h.help_no = c.help_no"
 				+ " LIMIT ?, ?";
-		
-		DBUtil dbUtil = new DBUtil();
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		conn = dbUtil.getConnection();
-		stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
-		rs = stmt.executeQuery();
-		
-		while(rs.next()) {
-			HashMap<String, Object> m = new HashMap<String, Object>();
-			m.put("helpNo", rs.getInt("helpNo"));
-			m.put("helpMemo", rs.getString("helpMemo"));
-			m.put("helpMemberId", rs.getString("helpMemberId"));
-			m.put("helpUpdatedate", rs.getString("helpUpdatedate"));
-			m.put("helpCreatedate", rs.getString("helpCreatedate"));
-			m.put("commentNo", rs.getInt("commentNo"));
-			m.put("commentMemo", rs.getString("commentMemo"));
-			m.put("commentMemberId", rs.getString("commentMemberId"));
-			m.put("commentUpdatedate", rs.getString("commentUpdatedate"));
-			m.put("commentCreatedate", rs.getString("commentCreatedate"));
-			list.add(m);
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+			rs = stmt.executeQuery();
+			
+			list = new ArrayList<HashMap<String, Object>>();
+			while(rs.next()) {
+				HashMap<String, Object> m = new HashMap<String, Object>();
+				m.put("helpNo", rs.getInt("helpNo"));
+				m.put("helpMemo", rs.getString("helpMemo"));
+				m.put("helpMemberId", rs.getString("helpMemberId"));
+				m.put("helpUpdatedate", rs.getString("helpUpdatedate"));
+				m.put("helpCreatedate", rs.getString("helpCreatedate"));
+				m.put("commentNo", rs.getInt("commentNo"));
+				m.put("commentMemo", rs.getString("commentMemo"));
+				m.put("commentMemberId", rs.getString("commentMemberId"));
+				m.put("commentUpdatedate", rs.getString("commentUpdatedate"));
+				m.put("commentCreatedate", rs.getString("commentCreatedate"));
+				list.add(m);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				dbUtil.close(rs, stmt, conn);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
-		dbUtil.close(rs, stmt, conn);
 		return list;
 	}
 	
 	// 마지막 페이지를 구할려면 전체
-	public int selectCommentCount() throws Exception {
+	public int selectCommentCount(){
 		int count = 0;
-		DBUtil dbUtil = new DBUtil();
-		Connection conn = dbUtil.getConnection();
+		DBUtil dbUtil = null;
 		String sql = null;
+		Connection conn = null;
 		PreparedStatement stmt = null;
-		sql = "SELECT COUNT(*) count FROM comment";
-		stmt = conn.prepareStatement(sql);
-		ResultSet rs = stmt.executeQuery();
-		if(rs.next()) {
-			count = rs.getInt("count");
+		ResultSet rs = null;
+		try {
+			dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			sql = "SELECT COUNT(*) count FROM comment";
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("count");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbUtil.close(rs, stmt, conn);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
-		dbUtil.close(rs, stmt, conn);
 		return count;
 	}
 		
 	// INSERT : insertCommentAction.jsp
-	public int insertComment(Comment comment) throws Exception {
+	public int insertComment(Comment comment){
 		int row = 0;
-		String sql = "INSERT into comment(help_no, comment_memo, member_id, updatedate, createdate)"
-					+ " VALUES(?, ?, ?, NOW(), NOW())";
-		DBUtil dbUtil = new DBUtil();
+		DBUtil dbUtil = null;
+		String sql = null;
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		
-		conn = dbUtil.getConnection();
-		stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, comment.getHelpNo());
-		stmt.setString(2, comment.getCommentMemo());
-		stmt.setString(3, comment.getMemberId());
-		row = stmt.executeUpdate();
-		dbUtil.close(null, stmt, conn);
+		try {
+			dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			sql = "INSERT into comment(help_no, comment_memo, member_id, updatedate, createdate)"
+				+ " VALUES(?, ?, ?, NOW(), NOW())";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, comment.getHelpNo());
+			stmt.setString(2, comment.getCommentMemo());
+			stmt.setString(3, comment.getMemberId());
+			row = stmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbUtil.close(null, stmt, conn);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return row;
 	}
 	
 	// UPDATE : updateCommentAction.jsp
-	public int updateComment(Comment comment) throws Exception {
+	public int updateComment(Comment comment){
 		int row = 0;
-		DBUtil dbUtil = new DBUtil();
-		Connection conn = dbUtil.getConnection();
+		DBUtil dbUtil = null;
 		String sql = null;
+		Connection conn = null;
 		PreparedStatement stmt = null;
-		sql = "UPDATE comment SET comment_memo = ? WHERE comment_no= ? ";
-		stmt = conn.prepareStatement(sql);
-		stmt.setString(1, comment.getCommentMemo());
-		stmt.setInt(2, comment.getCommentNo());
-		row = stmt.executeUpdate();
-		dbUtil.close(null, stmt, conn);
+		try {
+			dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			sql = "UPDATE comment SET comment_memo = ? WHERE comment_no= ? ";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, comment.getCommentMemo());
+			stmt.setInt(2, comment.getCommentNo());
+			row = stmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbUtil.close(null, stmt, conn);
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		return row;
 	}
 	
 	// DELETE : deleteCommentAction.jsp
-	public int deleteComment(Comment comment) throws Exception {
+	public int deleteComment(Comment comment){
 		int row = 0;
-		DBUtil dbUtil = new DBUtil();
-		Connection conn = dbUtil.getConnection();
+		DBUtil dbUtil = null;
 		String sql = null;
+		Connection conn = null;
 		PreparedStatement stmt = null;
-		sql = "DELETE FROM comment WHERE comment_no = ?";
-		stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, comment.getCommentNo());
-		row = stmt.executeUpdate();
-		dbUtil.close(null, stmt, conn);
+		try {
+			dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			sql = "DELETE FROM comment WHERE comment_no = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, comment.getCommentNo());
+			row = stmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbUtil.close(null, stmt, conn);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return row;
 	}
 }
