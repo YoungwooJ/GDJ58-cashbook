@@ -165,7 +165,7 @@ public class NoticeDao {
 		try {
 			dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
-			sql = "SELECT notice_no noticeNo, notice_memo noticeMemo, createdate"
+			sql = "SELECT notice_no noticeNo, notice_memo noticeMemo, updatedate, createdate"
 				+ " FROM notice ORDER BY createdate DESC"
 				+ " LIMIT ?,?";
 			stmt = conn.prepareStatement(sql);
@@ -178,6 +178,7 @@ public class NoticeDao {
 				Notice n = new Notice();
 				n.setNoticeNo(rs.getInt("noticeNo"));
 				n.setNoticeMemo(rs.getString("noticeMemo"));
+				n.setUpdatedate(rs.getString("updatedate"));
 				n.setCreatedate(rs.getString("createdate"));
 				list.add(n);
 			}
