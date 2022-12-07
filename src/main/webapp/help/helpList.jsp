@@ -508,7 +508,7 @@
 							<div class="card flex-fill">
 								<div class="card-header">
 
-									<h5 class="card-title mb-0">고객문의</h5>
+									<h5 class="card-title mb-0">나의 문의</h5>
 								</div>
 								<div class="card-body d-flex">
 									<div class="align-self-center w-100">

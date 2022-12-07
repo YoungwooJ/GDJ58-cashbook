@@ -340,7 +340,7 @@
 			<main class="content">
 				<div class="container-fluid p-0">
 
-					<h1 class="h3 mb-3"><strong><%=loginMember.getMemberName()%></strong>의 가계부</h1>
+					<h1 class="h3 mb-3"><strong>관리자 홈</strong></h1>
 					<!-- 
 					<div class="row">
 						<div class="col-xl-6 col-xxl-5 d-flex">
@@ -455,10 +455,11 @@
 							<div class="card flex-fill w-100">
 								<div class="card-header">
 
-									<h5 class="card-title mb-0">브라우저 사용빈도</h5>
+									<h5 class="card-title mb-0">최근 멤버</h5>
 								</div>
 								<div class="card-body d-flex">
 									<div class="align-self-center w-100">
+										<!-- 
 										<div class="py-3">
 											<div class="chart chart-xs">
 												<canvas id="chartjs-dashboard-pie"></canvas>
@@ -480,6 +481,28 @@
 													<td class="text-end">1689</td>
 												</tr>
 											</tbody>
+										</table>
+										 -->
+										 <!-- 최근 멤버 5명 -->
+										<table class="table table-border">
+											<tr>
+												<th>아이디</th>
+												<th>이름</th>
+												<th>마지막수정날짜</th>
+												<th>가입날짜</th>
+											</tr>
+											<%
+												for(Member m : memberList){
+											%>
+													<tr>
+														<td><%=m.getMemberId()%></td>
+														<td><%=m.getMemberName()%></td>
+														<td><%=m.getUpdatedate()%></td>
+														<td><%=m.getCreatedate()%></td>
+													</tr>
+											<%
+												}
+											%>
 										</table>
 									</div>
 								</div>
@@ -503,14 +526,47 @@
 							<div class="card flex-fill">
 								<div class="card-header">
 
-									<h5 class="card-title mb-0">달력</h5>
+									<h5 class="card-title mb-0">최근 문의사항</h5>
 								</div>
 								<div class="card-body d-flex">
 									<div class="align-self-center w-100">
 										<div class="chart">
 											<!--<div id="datetimepicker-dashboard"></div>-->
-											
-											
+											<!-- 최근 문의 5개 -->
+											<table class="table table-border">
+												<tr>
+													<th>문의내용</th>
+													<th>아이디</th>
+													<th>문의날짜</th>
+													<th>답변내용</th>
+													<th>답변날짜</th>
+												</tr>
+												<%
+													for(HashMap<String, Object> m : helpList){
+														String commentMemo = (String)m.get("commentMemo");
+												%>
+														<tr>
+															<td><%=m.get("helpMemo")%></td>
+															<td><%=m.get("helpMemberId")%></td>
+															<td><%=m.get("helpCreatedate")%></td>
+															<%
+																if(commentMemo != null){
+															%>
+																	<td><%=commentMemo%></td>
+																	<td><%=(String)m.get("commentCreatedate")%></td>
+															<%
+																} else {
+															%>
+																	<td colspan="2">답변 대기</td>
+															<%
+																}
+															%>
+															
+														</tr>
+												<%
+													}
+												%>	
+											</table>
 										</div>
 									</div>
 								</div>
@@ -526,6 +582,7 @@
 									<h5 class="card-title mb-0">최근 공지사항</h5>
 								</div>
 								<table class="table table-hover my-0">
+									<!-- 최근 공지 5개 -->
 									<thead>
 										<tr>
 											<th>공지번호</th>
@@ -861,94 +918,5 @@
 			});
 		});
 	</script>
-	<!-- header include -->
-	<!-- <div>
-		<jsp:include page="/admin/inc/header.jsp"></jsp:include>
-	</div> -->
-    
-	<div class="container">
-		<!-- adminMain contents... -->
-		<br>
-		<!-- 최근 공지 5개 -->
-		<h3 style="float:left;"><strong>최근 공지</strong></h3>
-		<table class="table table-border">
-			<tr>
-				<th>내용</th>
-				<th>날짜</th>
-			</tr>
-			<%
-				for(Notice n : noticeList){
-			%>
-					<tr>
-						<td><%=n.getNoticeMemo()%></td>
-						<td><%=n.getCreatedate()%></td>
-					</tr>
-			<%
-				}
-			%>
-		</table>
-		
-		<br>
-		<!-- 최근 멤버 5명 -->
-		<h3 style="float:left;"><strong>최근 멤버</strong></h3>
-		<table class="table table-border">
-			<tr>
-				<th>아이디</th>
-				<th>이름</th>
-				<th>마지막수정날짜</th>
-				<th>가입날짜</th>
-			</tr>
-			<%
-				for(Member m : memberList){
-			%>
-					<tr>
-						<td><%=m.getMemberId()%></td>
-						<td><%=m.getMemberName()%></td>
-						<td><%=m.getUpdatedate()%></td>
-						<td><%=m.getCreatedate()%></td>
-					</tr>
-			<%
-				}
-			%>
-		</table>
-		
-		<br>
-		<!-- 최근 문의 5개 -->
-		<h3 style="float:left;"><strong>최근 문의</strong></h3>
-		<table class="table table-border">
-			<tr>
-				<th>문의내용</th>
-				<th>아이디</th>
-				<th>문의날짜</th>
-				<th>답변내용</th>
-				<th>답변날짜</th>
-			</tr>
-			<%
-				for(HashMap<String, Object> m : helpList){
-					String commentMemo = (String)m.get("commentMemo");
-			%>
-					<tr>
-						<td><%=m.get("helpMemo")%></td>
-						<td><%=m.get("helpMemberId")%></td>
-						<td><%=m.get("helpCreatedate")%></td>
-						<%
-							if(commentMemo != null){
-						%>
-								<td><%=commentMemo%></td>
-								<td><%=(String)m.get("commentCreatedate")%></td>
-						<%
-							} else {
-						%>
-								<td colspan="2">답변 대기</td>
-						<%
-							}
-						%>
-						
-					</tr>
-			<%
-				}
-			%>	
-		</table>
-	</div>
 </body>
 </html>
