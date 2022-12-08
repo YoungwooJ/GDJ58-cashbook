@@ -672,7 +672,7 @@
 											</table>
 											
 											<!-- 문의사항 페이징 -->
-											<div class="btn-group btn-group-sm mb-4" role="group" aria-label="Small button group" id="pagingButton">
+											<div class="btn-group btn-group-sm mb-4" role="group" aria-label="Small button group">
 												<a type="button" class="btn btn-outline-primary" href="<%=request.getContextPath()%>/admin/comment/commentList.jsp?currentPage=1" style="text-decoration: none;">처음</a>
 													<%
 														if(currentPage > 1) {
