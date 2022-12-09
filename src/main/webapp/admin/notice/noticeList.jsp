@@ -110,7 +110,7 @@
 						메뉴
 					</li>
 
-					<li class="sidebar-item active">
+					<li class="sidebar-item">
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/cash/cashList.jsp">
               <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">가계부</span>
             </a>
@@ -121,22 +121,12 @@
               <i class="align-middle" data-feather="user"></i> <span class="align-middle">내정보</span>
             </a>
 					</li>
-
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="<%=request.getContextPath()%>/member/loginForm.jsp">
-              <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">로그인</span>
-            </a>
+					
             		<li class="sidebar-item">
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/member/logout.jsp">
               <i class="align-middle" data-feather="log-out"></i> <span class="align-middle">로그아웃</span>
             </a>
-					</li>
-
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="<%=request.getContextPath()%>/member/insertMemberForm.jsp">
-              <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">회원가입</span>
-            </a>
-					</li>
+					</li>					
 					
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="https://github.com/YoungwooJ/GDJ58-cashbook">
@@ -154,9 +144,15 @@
 						관리자 기능
 					</li>
             		
-					<li class="sidebar-item">
+            		<li class="sidebar-item">
+						<a class="sidebar-link" href="<%=request.getContextPath()%>/admin/adminMain.jsp">
+              <i class="align-middle" data-feather="home"></i> <span class="align-middle">관리자 홈</span>
+            </a>
+					</li>
+            		
+					<li class="sidebar-item active">
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp">
-              <i class="align-middle" data-feather="layout"></i> <span class="align-middle">공지관리</span>
+              <i class="align-middle" data-feather="layout"></i> <span class="align-middle">공지사항관리</span>
             </a>
 					</li>
 
@@ -170,10 +166,8 @@
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">
               <i class="align-middle" data-feather="list"></i> <span class="align-middle">카테고리관리</span>
             </a>
-					</li>
+					</li>										
 					
-					
-
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/admin/member/memberList.jsp">
               <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">멤버관리</span>
@@ -201,7 +195,7 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
 								<div class="dropdown-menu-header">
-									4 New Notifications
+									4개의 새 알림이 있습니다.
 								</div>
 								<div class="list-group">
 									<a href="#" class="list-group-item">
@@ -210,9 +204,9 @@
 												<i class="text-danger" data-feather="alert-circle"></i>
 											</div>
 											<div class="col-10">
-												<div class="text-dark">Update completed</div>
-												<div class="text-muted small mt-1">Restart server 12 to complete the update.</div>
-												<div class="text-muted small mt-1">30m ago</div>
+												<div class="text-dark">업데이트 완료</div>
+												<div class="text-muted small mt-1">업데이트를 완료하려면 시스템을 다시 시작해야 합니다.</div>
+												<div class="text-muted small mt-1">30분 전</div>
 											</div>
 										</div>
 									</a>
@@ -222,9 +216,9 @@
 												<i class="text-warning" data-feather="bell"></i>
 											</div>
 											<div class="col-10">
-												<div class="text-dark">Lorem ipsum</div>
-												<div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate hendrerit et.</div>
-												<div class="text-muted small mt-1">2h ago</div>
+												<div class="text-dark">새로운 알림</div>
+												<div class="text-muted small mt-1">가계부에 새로운 내역을 추가해보세요.</div>
+												<div class="text-muted small mt-1">2시간 전</div>
 											</div>
 										</div>
 									</a>
@@ -234,8 +228,8 @@
 												<i class="text-primary" data-feather="home"></i>
 											</div>
 											<div class="col-10">
-												<div class="text-dark">Login from 192.186.1.8</div>
-												<div class="text-muted small mt-1">5h ago</div>
+												<div class="text-dark">새로운 IP에서 로그인 되었습니다.</div>
+												<div class="text-muted small mt-1">5시간 전</div>
 											</div>
 										</div>
 									</a>
@@ -245,15 +239,15 @@
 												<i class="text-success" data-feather="user-plus"></i>
 											</div>
 											<div class="col-10">
-												<div class="text-dark">New connection</div>
-												<div class="text-muted small mt-1">Christina accepted your request.</div>
-												<div class="text-muted small mt-1">14h ago</div>
+												<div class="text-dark">새로운 친구</div>
+												<div class="text-muted small mt-1">크리스티나가 당신의 요청을 수락했습니다.</div>
+												<div class="text-muted small mt-1">14시간 전</div>
 											</div>
 										</div>
 									</a>
 								</div>
 								<div class="dropdown-menu-footer">
-									<a href="#" class="text-muted">Show all notifications</a>
+									<a href="#" class="text-muted">모든 알림 보기</a>
 								</div>
 							</div>
 						</li>
@@ -266,61 +260,61 @@
 							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown">
 								<div class="dropdown-menu-header">
 									<div class="position-relative">
-										4 New Messages
+										4개의 새 메시지가 있습니다.
 									</div>
 								</div>
 								<div class="list-group">
 									<a href="#" class="list-group-item">
 										<div class="row g-0 align-items-center">
 											<div class="col-2">
-												<img src="<%=request.getContextPath()%>/adminkit-dev/static/img/avatars/avatar-5.jpg" class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
+												<img src="../adminkit-dev/static/img/avatars/avatar-5.jpg" class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
 											</div>
 											<div class="col-10 ps-2">
 												<div class="text-dark">Vanessa Tucker</div>
-												<div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis arcu tortor.</div>
-												<div class="text-muted small mt-1">15m ago</div>
+												<div class="text-muted small mt-1">밥 먹었어?</div>
+												<div class="text-muted small mt-1">15분 전</div>
 											</div>
 										</div>
 									</a>
 									<a href="#" class="list-group-item">
 										<div class="row g-0 align-items-center">
 											<div class="col-2">
-												<img src="<%=request.getContextPath()%>/adminkit-dev/static/img/avatars/avatar-2.jpg" class="avatar img-fluid rounded-circle" alt="William Harris">
+												<img src="../adminkit-dev/static/img/avatars/avatar-2.jpg" class="avatar img-fluid rounded-circle" alt="William Harris">
 											</div>
 											<div class="col-10 ps-2">
 												<div class="text-dark">William Harris</div>
-												<div class="text-muted small mt-1">Curabitur ligula sapien euismod vitae.</div>
-												<div class="text-muted small mt-1">2h ago</div>
+												<div class="text-muted small mt-1">다음 주에 뵙겠습니다.</div>
+												<div class="text-muted small mt-1">2시간 전</div>
 											</div>
 										</div>
 									</a>
 									<a href="#" class="list-group-item">
 										<div class="row g-0 align-items-center">
 											<div class="col-2">
-												<img src="<%=request.getContextPath()%>/adminkit-dev/static/img/avatars/avatar-4.jpg" class="avatar img-fluid rounded-circle" alt="Christina Mason">
+												<img src="../adminkit-dev/static/img/avatars/avatar-4.jpg" class="avatar img-fluid rounded-circle" alt="Christina Mason">
 											</div>
 											<div class="col-10 ps-2">
 												<div class="text-dark">Christina Mason</div>
-												<div class="text-muted small mt-1">Pellentesque auctor neque nec urna.</div>
-												<div class="text-muted small mt-1">4h ago</div>
+												<div class="text-muted small mt-1">감사합니다.</div>
+												<div class="text-muted small mt-1">4시간 전</div>
 											</div>
 										</div>
 									</a>
 									<a href="#" class="list-group-item">
 										<div class="row g-0 align-items-center">
 											<div class="col-2">
-												<img src="<%=request.getContextPath()%>/adminkit-dev/static/img/avatars/avatar-3.jpg" class="avatar img-fluid rounded-circle" alt="Sharon Lessman">
+												<img src="../adminkit-dev/static/img/avatars/avatar-3.jpg" class="avatar img-fluid rounded-circle" alt="Sharon Lessman">
 											</div>
 											<div class="col-10 ps-2">
 												<div class="text-dark">Sharon Lessman</div>
-												<div class="text-muted small mt-1">Aenean tellus metus, bibendum sed, posuere ac, mattis non.</div>
-												<div class="text-muted small mt-1">5h ago</div>
+												<div class="text-muted small mt-1">오늘 하루도 화이팅이에요.</div>
+												<div class="text-muted small mt-1">5시간 전</div>
 											</div>
 										</div>
 									</a>
 								</div>
 								<div class="dropdown-menu-footer">
-									<a href="#" class="text-muted">Show all messages</a>
+									<a href="#" class="text-muted">모든 메시지 보기</a>
 								</div>
 							</div>
 						</li>
@@ -336,7 +330,7 @@
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/member/memberOne.jsp?loginMemberId=<%=loginMember.getMemberId()%>"><i class="align-middle me-1" data-feather="user"></i> 프로필</a>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/cash/cashList.jsp"><i class="align-middle me-1" data-feather="calendar"></i> 가계부</a>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="../adminkit-dev/static/index.html"><i class="align-middle me-1" data-feather="settings"></i> 설정</a>
+								<a class="dropdown-item" href="<%=request.getContextPath()%>/help/helpList.jsp"><i class="align-middle me-1" data-feather="settings"></i> 설정</a>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/help/helpList.jsp"><i class="align-middle me-1" data-feather="help-circle"></i> 고객센터</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/member/logout.jsp"><i class="align-middle me-1" data-feather="log-out"></i>로그아웃</a>
@@ -569,30 +563,31 @@
 											<br>
 											<!-- 공지사항 페이징 -->
 											<div class="btn-group btn-group-sm mb-4" role="group" aria-label="Small button group">
-											<a type="button" class="btn btn-outline-primary" href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=1" style="text-decoration: none;">처음</a>
-												<%
-													if(currentPage > 1) {
-												%>
-														<a type="button" class="btn btn-outline-primary" href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=<%=currentPage-1%>" style="text-decoration: none;">이전</a>
-												<%
-													}
-												%>
-												<span class="btn btn-outline-primary" ><%=currentPage%></span>
-												<%
-													if(currentPage < lastPage){
-												%>
-														<a type="button" class="btn btn-outline-primary" href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=<%=currentPage+1%>" style="text-decoration: none;">다음</a>
-												<%		
-													}
-												%>
-											<a type="button" class="btn btn-outline-primary" href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=<%=lastPage%>" style="text-decoration: none;">마지막</a>
+												<a type="button" class="btn btn-outline-primary" href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=1" style="text-decoration: none;">처음</a>
+													<%
+														if(currentPage > 1) {
+													%>
+															<a type="button" class="btn btn-outline-primary" href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=<%=currentPage-1%>" style="text-decoration: none;">이전</a>
+													<%
+														}
+													%>
+													<span class="btn btn-outline-primary" ><%=currentPage%></span>
+													<%
+														if(currentPage < lastPage){
+													%>
+															<a type="button" class="btn btn-outline-primary" href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=<%=currentPage+1%>" style="text-decoration: none;">다음</a>
+													<%		
+														}
+													%>
+												<a type="button" class="btn btn-outline-primary" href="<%=request.getContextPath()%>/admin/notice/noticeList.jsp?currentPage=<%=lastPage%>" style="text-decoration: none;">마지막</a>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					
+					</div>	
+				
 					<div class="row">
 						<div class="col-12 col-lg-8 col-xxl-9 d-flex">
 							<div class="card flex-fill">
@@ -625,7 +620,7 @@
 													</tr>
 												</tbody>
 											</table>			
-											<a style="float:left;" class="btn btn-primary" href="<%=request.getContextPath()%>/admin/adminMain.jsp">이전</a>
+											<a style="float:left;" class="btn btn-primary" href="<%=request.getContextPath()%>/admin/adminMain.jsp">홈으로</a>
 											<button style="float:right;" class="btn btn-info" type="submit">입력</button>
 										</form>
 									</div>
@@ -649,7 +644,7 @@
 						 
 					</div>
 
-				</div>
+				
 			</main>
 			
 			<!-- footer include -->

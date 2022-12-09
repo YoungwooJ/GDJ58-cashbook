@@ -11,82 +11,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>InsertMemberForm</title>
-	<!-- 부트스트랩5 CDN -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-	<style>
-		.background{
-			background-image: url(<%=request.getContextPath()%>/img/city.jpg);
-		}
-		body {
-			padding:1.5em;
-			background: #f5f5f5;
-		}
-		
-		/*
-		table {
-			border: 1px #BDBDBD solid;
-			font-size: .9em;
-			box-shadow: 0 2px 5px #BDBDBD;
-			width: 100%;
-			border-collapse: collapse;
-			border-radius: 20px;
-			overflow: hidden;
-		}
-		*/
-				
-		a {
-			text-decoration: none;
-		}
-		input:hover {
-			outline: none !important;
-			border-color: #0054FF;
-			box-shadow: 0 0 10px #6799FF;
-		}
-		#verticalMiddle{
-		    position: absolute;
-		    top: 60%;
-		    left: 50%;
-		    transform: translate(-50%, -50%);
-		}
-	</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>inderMemberForm</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap-5-login-cover-template-main/css/mdb.min.css" />
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap-5-login-cover-template-main/css/style.css" />
 </head>
-<body class="background">
-	<div class="container text-center">
-		<!-- msg 파라메타값이 있으면 출력 -->
-		<%
-			String msg = request.getParameter("msg");
-			if(msg != null) {
-		%>
-				<div class="text-danger"><%=msg%></div>
-		<%		
-			}
-		%>
-		<h2 class="p-3 rounded">회원가입</h2>
-		<form action="<%=request.getContextPath()%>/member/insertMemberAction.jsp" method="post">
-			<table class="table table-bordered">
-				<tr>
-					<td>회원 아이디</td>
-					<td><input type="text" name="memberId"></td>
-				</tr>
-				<tr>
-					<td>회원 닉네임</td>
-					<td><input type="text" name="memberName"></td>
-				</tr>
-				<tr>
-					<td>회원 비밀번호</td>
-					<td><input type="password" name="memberPw"></td>
-				</tr>
-			</table>
-			<a style="float: left;" type="button" class="btn btn-primary" href="<%=request.getContextPath()%>/member/loginForm.jsp">이전</a>
-			<button style="float: right;" class="btn btn-primary" type="submit">회원가입</button>
-		</form>
-		<!-- footer include -->
+<body>
+      <!--Main Navigation-->
+  <header>
+    <style>
+      #intro {
+        background-image: url(https://mdbootstrap.com/img/new/fluid/city/008.jpg);
+        height: 100vh;
+      }
+
+      /* Height for devices larger than 576px */
+      @media (min-width: 992px) {
+        #intro {
+          margin-top: -58.59px;
+        }
+      }
+
+      .navbar .nav-link {
+        color: #fff !important;
+      }
+    </style>
+
+    <!-- Background image -->
+    <div id="intro" class="bg-image shadow-2-strong">
+      <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0, 0, 0, 0.8);">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+              <form class="bg-white rounded shadow-5-strong p-5" action="<%=request.getContextPath()%>/member/insertMemberAction.jsp" method="post">
+                <h4 style="float:left;">회원가입</h4><br><br>	
+				<!-- msg 파라메타값이 있으면 출력 -->
+				<%
+					String msg = request.getParameter("msg");
+					if(msg != null) {
+				%>
+						<div class="text-danger"><%=msg%></div>
+				<%		
+					}
+				%>
+                <!-- ID input -->
+                <div class="form-outline mb-4">
+                  <input type="text" name="memberId" id="form1Example1" class="form-control" />
+                  <label class="form-label" for="form1Example1">회원 아이디</label>
+                </div>
+
+				<!-- ID input -->
+                <div class="form-outline mb-4">
+                  <input type="text" name="memberName" id="form1Example2" class="form-control" />
+                  <label class="form-label" for="form1Example2">회원 닉네임</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                  <input type="password" name="memberPw" id="form1Example3" class="form-control" />
+                  <label class="form-label" for="form1Example3">회원 비밀번호</label>
+                </div>
+
+                <!-- Submit button -->
+                <button style="float: right;" class="btn btn-primary" type="submit">회원가입</button>
+				<div>
+				<a style="float: left;" type="button" class="btn btn-primary" href="<%=request.getContextPath()%>/member/loginForm.jsp">이전</a>
+				</div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Background image -->
+  </header>
+	
+	<!-- footer include -->
 		<div>
 			<jsp:include page="/inc/footer.jsp"></jsp:include>
 		</div>
-	</div>
+
+    <!-- MDB -->
+    <script type="text/javascript" src="<%=request.getContextPath()%>/bootstrap-5-login-cover-template-main/js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript" src="<%=request.getContextPath()%>/bootstrap-5-login-cover-template-main/js/script.js"></script>
 </body>
 </html>
