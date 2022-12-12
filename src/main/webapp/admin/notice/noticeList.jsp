@@ -31,8 +31,7 @@
 	// 최근 공지 5개, 최근 멤버 5명, 최근 문의 5개 출력
 	MemberDao memberDao = new MemberDao();
 	
-	ArrayList<Notice> noticeList = noticeDao.selectNoticeListByPage(beginRow, 5);
-	ArrayList<Member> memberList = memberDao.selectMemberListByPage(beginRow, 5);
+	ArrayList<Member> memberList = memberDao.selectMemberListByPage(0, 5);
 	
 	// 3. View
 %>
@@ -608,6 +607,7 @@
 											}
 										%>
 										<form action="<%=request.getContextPath()%>/admin/notice/insertNoticeAction.jsp" method="post">
+											<input type="hidden" name="currentPage" value="<%=currentPage%>">																			
 											<table class="table table-hover my-0">
 												<thead>
 												</thead>
