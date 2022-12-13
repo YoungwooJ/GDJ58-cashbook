@@ -111,6 +111,12 @@
               <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">가계부</span>
             </a>
 					</li>
+					
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="<%=request.getContextPath()%>/stats/statsMain.jsp">
+              <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">통계</span>
+            </a>
+					</li>
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/member/memberOne.jsp?loginMemberId=<%=loginMember.getMemberId()%>">

@@ -1,30 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="dao.*" %>
-<%@ page import="vo.*" %>
+<%@ page import = "vo.*" %>
+<%@ page import = "dao.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.text.*" %>
 <%
-	// 1. Controller
-	Member loginMember = (Member)session.getAttribute("loginMember");
-	if(loginMember == null || loginMember.getMemberLevel() < 1){
+	//1. Controller : session, request
+	// session 유효성 검증 코드 후 필요하다면 redirect!
+	if(session.getAttribute("loginMember") == null){
+		// 로그인이 되지 않은 상태
 		response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
 		return;
 	}
 
-	request.setCharacterEncoding("UTF-8");
-	String msg = null;
-	int memberNo = 0;
+	//session에 저장된 멤버(현재 로그인 사용자)
+	Object objLoginMember = session.getAttribute("loginMember");
+	Member loginMember = (Member)objLoginMember;
+	String memberId = loginMember.getMemberId();
+	System.out.println(memberId);
 	
-	// 방어코드
-	if(request.getParameter("memberNo")== null || request.getParameter("memberNo").equals("")){
-		msg = URLEncoder.encode("오류입니다.", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/admin/member/memberList?msg="+msg);
-		return;
-	} else {
-		memberNo = Integer.parseInt(request.getParameter("memberNo"));
-	}
+	// 숫자 콤마 포맷
+	DecimalFormat df = new DecimalFormat("###,###");
 	
 	// 2. Model 호출
+	StatsDao statsDao = new StatsDao();
+	ArrayList<HashMap<String, Object>> list = statsDao.selectCashStatsByYear(memberId);
+	
+	// 페이징
+	int currentPage = 1;
+	final int ROW_PER_PAGE = 5;
+	int beginRow = (currentPage-1)*ROW_PER_PAGE;		
+	
+	// 최근 공지 5개, 최근 멤버 5명, 최근 문의 5개 출력
+	NoticeDao noticeDao = new NoticeDao();	
+	
+	ArrayList<Notice> noticeList = noticeDao.selectNoticeListByPage(beginRow, ROW_PER_PAGE);
 %>
 <!DOCTYPE html>
 <html>
@@ -37,55 +46,14 @@
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="<%=request.getContextPath()%>/adminkit-dev/static/img/icons/icon-48x48.png" />
+	<link rel="shortcut icon" href="../adminkit-dev/static/img/icons/icon-48x48.png" />
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 	
-	<title>deleteMemberForm</title>
+	<title>statsMain.jsp</title>
 	
-	<link href="<%=request.getContextPath()%>/adminkit-dev/static/css/app.css" rel="stylesheet">
+	<link href="../adminkit-dev/static/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-	<style>
-		/*
-		body {
-			padding:1.5em;
-			background: #f5f5f5;
-		}
-		*/
-		/*
-		table {
-			border: 1px #BDBDBD solid;
-			font-size: .9em;
-			box-shadow: 0 2px 5px #BDBDBD;
-			width: 100%;
-			border-collapse: collapse;
-			border-radius: 20px;
-			overflow: hidden;
-		}
-		*/
-		/*
-		#datepicker{
-			table-layout:fixed;
-			width: 1000px;
-		}
-		*/
-		#dateblock{
-			width: 150px;
-    		height: 150px;
-		}
-		#dateblock:hover{
-			background-color: #EAEAEA;
-			border-radius: 5px;
-		}
-		a {
-			text-decoration: none;
-			color: black;
-		}
-		a:hover{
-			text-decoration: none;
-			color: black;
-		}
-	</style>
 </head>
 <body>
 	<div class="wrapper">
@@ -106,7 +74,7 @@
             </a>
 					</li>
 					
-					<li class="sidebar-item">
+					<li class="sidebar-item active">
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/stats/statsMain.jsp">
               <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">통계</span>
             </a>
@@ -117,12 +85,12 @@
               <i class="align-middle" data-feather="user"></i> <span class="align-middle">내정보</span>
             </a>
 					</li>
-					
+
             		<li class="sidebar-item">
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/member/logout.jsp">
               <i class="align-middle" data-feather="log-out"></i> <span class="align-middle">로그아웃</span>
             </a>
-					</li>				
+					</li>
 					
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="https://github.com/YoungwooJ/GDJ58-cashbook">
@@ -135,12 +103,14 @@
               <i class="align-middle" data-feather="help-circle"></i> <span class="align-middle">고객센터</span>
             </a>
 					</li>
-
+<%
+	if(loginMember.getMemberLevel() == 1){
+%>
 					<li class="sidebar-header">
 						관리자 기능
 					</li>
-					
-					<li class="sidebar-item">
+            		
+            		<li class="sidebar-item">
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/admin/adminMain.jsp">
               <i class="align-middle" data-feather="home"></i> <span class="align-middle">관리자 홈</span>
             </a>
@@ -164,12 +134,16 @@
             </a>
 					</li>
 					
-					<li class="sidebar-item active">
+					
+
+					<li class="sidebar-item">
 						<a class="sidebar-link" href="<%=request.getContextPath()%>/admin/member/memberList.jsp">
               <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">멤버관리</span>
             </a>
 					</li>
-
+<%
+	}
+%>
 				</ul>
 			</div>
 		</nav>
@@ -320,7 +294,7 @@
               </a>
 
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                <img src="<%=request.getContextPath()%>/adminkit-dev/static/img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark"><%=loginMember.getMemberName()%></span>
+                <img src="../adminkit-dev/static/img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark"><%=loginMember.getMemberName()%></span>
               </a>
 							<div class="dropdown-menu dropdown-menu-end">
 								<a class="dropdown-item" href="<%=request.getContextPath()%>/member/memberOne.jsp?loginMemberId=<%=loginMember.getMemberId()%>"><i class="align-middle me-1" data-feather="user"></i> 프로필</a>
@@ -339,7 +313,7 @@
 			<main class="content">
 				<div class="container-fluid p-0">
 
-					<h1 class="h3 mb-3"><strong>멤버 관리</strong></h1>
+					<h1 class="h3 mb-3"><strong><%=loginMember.getMemberName()%></strong>의 가계부 통계</h1>
 					<!-- 
 					<div class="row">
 						<div class="col-xl-6 col-xxl-5 d-flex">
@@ -450,16 +424,14 @@
 					-->
 					<!--  -->
 					<div class="row">
-						<!-- 
 						<div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
 							<div class="card flex-fill w-100">
 								<div class="card-header">
 
-									<h5 class="card-title mb-0">최근 멤버</h5>
+									<h5 class="card-title mb-0">브라우저 사용빈도</h5>
 								</div>
 								<div class="card-body d-flex">
 									<div class="align-self-center w-100">
-										
 										<div class="py-3">
 											<div class="chart chart-xs">
 												<canvas id="chartjs-dashboard-pie"></canvas>
@@ -482,12 +454,10 @@
 												</tr>
 											</tbody>
 										</table>
-										 
 									</div>
 								</div>
 							</div>
 						</div>
-						 -->
 						<!-- 
 						<div class="col-12 col-md-12 col-xxl-6 d-flex order-3 order-xxl-2">
 							<div class="card flex-fill w-100">
@@ -501,10 +471,95 @@
 							</div>
 						</div>
 						-->
-						<div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
+						<!-- col-12 col-lg-8 col-xxl-9 d-flex -->
+						<div class="col-12 col-lg-8 col-xxl-9 d-flex order-3 order-xxl-2">
+							<div class="card flex-fill">
+								<div class="card-header">
+
+									<h5 class="card-title mb-0">가계부 통계</h5>
+								</div>
+								<div class="card-body d-flex">
+									<div class="align-self-center w-100">
+										<div class="chart">
+											<!--<div id="datetimepicker-dashboard"></div>-->
+											
+											<table class="table">
+												<tr>
+													<th>년</th>
+													<th>수입횟수</th>
+													<th>수입합계</th>
+													<th>수입평균</th>
+													<th>지출횟수</th>
+													<th>지출합계</th>
+													<th>지출평균</th>
+												</tr>
+												<%
+													for(HashMap<String, Object> m: list){
+												%>		
+														<tr>
+															<td>
+																<a class="badge bg-primary" href="<%=request.getContextPath()%>/stats/statsListByMonth.jsp?year=<%=m.get("year")%>">
+																	<%=m.get("year")%>년
+																</a>
+															</td>
+															<td><%=m.get("incomeCnt")%>회</td>
+															<td><%=df.format(m.get("incomeSum"))%>원</td>
+															<td><%=df.format(m.get("incomeAvg"))%>원</td>
+															<td><%=m.get("expenseCnt")%>회</td>
+															<td><%=df.format(m.get("expenseSum"))%>원</td>
+															<td><%=df.format(m.get("expenseAvg"))%>원</td>
+														</tr>
+												<%
+													}
+												%>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12 col-lg-8 col-xxl-9 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+
+									<h5 class="card-title mb-0">최근 공지사항</h5>
+								</div>
+								<table class="table table-hover my-0">
+									<thead>
+										<tr>
+											<th>공지번호</th>
+											<th class="d-none d-xl-table-cell">입력 날짜</th>
+											<th class="d-none d-xl-table-cell">수정 날짜</th>
+											<th>상황</th>
+											<th class="d-none d-md-table-cell">내용</th>
+										</tr>
+									</thead>
+									<tbody>
+										<%
+											for(Notice n : noticeList){
+										%>
+												<tr>
+													<td><%=n.getNoticeNo()%></td>
+													<td class="d-none d-xl-table-cell"><%=n.getCreatedate()%></td>
+													<td class="d-none d-xl-table-cell"><%=n.getUpdatedate()%></td>
+													<td><span class="badge bg-success">완료</span></td>
+													<td class="d-none d-md-table-cell"><%=n.getNoticeMemo()%></td>
+												</tr>
+										<%	
+											}
+										%>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<div class="col-12 col-lg-4 col-xxl-3 d-flex">
 							<div class="card flex-fill w-100">
 								<div class="card-header">
-		
+
 									<h5 class="card-title mb-0">월 매출</h5>
 								</div>
 								<div class="card-body d-flex w-100">
@@ -514,67 +569,6 @@
 								</div>
 							</div>
 						</div>
-						<!-- col-12 col-lg-8 col-xxl-9 d-flex -->
-						<div class="col-12 col-lg-8 col-xxl-9 d-flex order-3 order-xxl-2">
-							<div class="card flex-fill">
-								<div class="card-header">
-
-									<h5 class="card-title mb-0">회원 강제탈퇴</h5>
-								</div>
-								<div class="card-body d-flex text-center">
-									<div class="align-self-center w-100">
-										<div class="chart">
-											<!--<div id="datetimepicker-dashboard"></div>-->
-											<!-- msg 파라메타값이 있으면 출력 -->
-											<%
-												msg = request.getParameter("msg");
-												if(request.getParameter("msg") != null) {
-											%>
-													<div class="text-danger"><%=msg%></div>
-											<%		
-												}
-											%>
-											<!-- 비밀번호 확인 -->
-											<form action="<%=request.getContextPath()%>/admin/member/deleteMemberAction.jsp?memberNo=<%=memberNo%>" method="post">
-											<input type="hidden" name="memberNo" value="<%=memberNo%>">
-											<table class="table table-border">
-												<tr>
-													<th>회원번호</th>
-													<td>
-														<input type="text" name="memberNo" value="<%=memberNo%>" readonly="readonly">
-													</td>
-												</tr>
-												<tr>
-													<th>비밀번호</th>
-													<td>
-														<input type="password" name="adminPw" value="">
-													</td>
-												</tr>
-											</table>
-											<a style="float:left;" class="btn btn-primary" href="<%=request.getContextPath()%>/admin/member/memberList.jsp">이전</a>
-											<button style="float:right;" class="btn btn-danger" type="submit">삭제</button>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<!-- 
-						<div class="col-12 col-lg-8 col-xxl-9 d-flex">
-							<div class="card flex-fill">
-								<div class="card-header">
-
-									<h5 class="card-title mb-0">최근 공지사항</h5>
-								</div>
-								<table class="table table-hover my-0">
-									
-								</table>
-							</div>
-						</div>
-						 -->
 						
 					</div>
 
@@ -588,7 +582,7 @@
 		</div>
 	</div>
 
-	<script src="<%=request.getContextPath()%>/adminkit-dev/static/js/app.js"></script>
+	<script src="../adminkit-dev/static/js/app.js"></script>
 
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
@@ -810,6 +804,6 @@
 				defaultDate: defaultDate
 			});
 		});
-	</script>	
+	</script>
 </body>
 </html>
