@@ -2,6 +2,7 @@
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
 <%@ page import = "java.util.*" %>
+<%@ page import="java.text.*" %>
 <%
 	// 1. Controller : session, request
 	// session 유효성 검증 코드 후 필요하다면 redirect!
@@ -15,6 +16,9 @@
 	Object objLoginMember = session.getAttribute("loginMember");
 	Member loginMember = (Member)objLoginMember;
 	//System.out.println(loginMember);
+	
+	// 숫자 콤마 포맷
+	DecimalFormat df = new DecimalFormat("###,###");
 	
 	//request 년 + 월
 	int year = 0;
@@ -606,7 +610,7 @@
 																						&nbsp;
 																						<%=(String)m.get("categoryName")%>
 																						&nbsp;
-																						<%=(Long)m.get("cashPrice")%>원
+																						<%=df.format((Long)m.get("cashPrice"))%>원
 																						<br>
 																			<%			
 																					}		

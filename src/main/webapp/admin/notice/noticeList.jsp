@@ -612,7 +612,7 @@
 										<%		
 											}
 										%>
-										<form action="<%=request.getContextPath()%>/admin/notice/insertNoticeAction.jsp" method="post">
+										<form id="noticeForm" action="<%=request.getContextPath()%>/admin/notice/insertNoticeAction.jsp" method="post">
 											<input type="hidden" name="currentPage" value="<%=currentPage%>">																			
 											<table class="table table-hover my-0">
 												<thead>
@@ -621,13 +621,13 @@
 													<tr>
 														<td>내용</td>
 														<td>
-															<textarea rows="8" cols="80" name="noticeMemo"></textarea>
+															<textarea rows="8" cols="80" name="noticeMemo" id="noticeMemo"></textarea>
 														</td>
 													</tr>
 												</tbody>
 											</table>			
 											<a style="float:left;" class="btn btn-primary" href="<%=request.getContextPath()%>/admin/adminMain.jsp">홈으로</a>
-											<button style="float:right;" class="btn btn-info" type="submit">입력</button>
+											<button id="noticeBtn" style="float:right;" class="btn btn-info" type="button">입력</button>
 										</form>
 									</div>
 								</div>
@@ -659,6 +659,26 @@
 			</div>
 		</div>
 	</div>
+	
+	<script>
+		let noticeBtn = document.querySelector('#noticeBtn')
+		
+		noticeBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('noticeBtn Click!');			
+			
+			// noticeMemo 폼 유효성 검사
+			let noticeMemo = document.querySelector('#noticeMemo');
+			if(noticeMemo.value == ''){
+				alert('내용을 입력하세요.');
+				noticeMemo.focus();
+				return;
+			}
+			
+			let noticeForm = document.querySelector('#noticeForm');
+			noticeForm.submit();
+		});
+	</script>
 
 	<script src="<%=request.getContextPath()%>/adminkit-dev/static/js/app.js"></script>
 

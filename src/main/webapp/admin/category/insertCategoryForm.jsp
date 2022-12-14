@@ -537,23 +537,23 @@
 											<%		
 												}
 											%>
-											<form action="<%=request.getContextPath()%>/admin/category/insertCategoryAction.jsp" method="post">
+											<form id="categoryForm" action="<%=request.getContextPath()%>/admin/category/insertCategoryAction.jsp" method="post">
 												<div>
 													<table class="table table-border">
 														<tr>
 															<th>수입/지출</th>
 															<td>
-																<input type="radio" name="categoryKind" value="수입">수입
-																<input type="radio" name="categoryKind" value="지출">지출
+																<input type="radio" name="categoryKind" value="수입" id="categoryKind">수입
+																<input type="radio" name="categoryKind" value="지출" id="categoryKind">지출
 															</td>
 														</tr>
 														<tr>
 															<th>이름</th>
-															<td><input type="text" name="categoryName"></td>
+															<td><input type="text" name="categoryName" id="categoryName"></td>
 														</tr>
 													</table>
 													<a class="btn btn-primary" href="<%=request.getContextPath()%>/admin/category/categoryList.jsp">이전</a>
-													<button style="float:right;" class="btn btn-info" type="submit">추가</button>
+													<button id="categoryBtn" style="float:right;" class="btn btn-info" type="button">추가</button>
 												</div>
 											</form>
 										</div>
@@ -625,6 +625,35 @@
 			</div>
 		</div>
 	</div>
+	
+	<script>
+		let categoryBtn = document.querySelector('#categoryBtn')
+		
+		categoryBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('categoryBtn Click!');
+			
+			// CategoryKind 폼 유효성 검사
+			let categoryKind = document.querySelectorAll('#categoryKind:checked');
+			console.log(categoryKind.length) // 1
+			if(categoryKind.length != 1){
+				alert('수입과 지출 중 하나를 선택하세요.');
+				categoryKind.focus();
+				return;
+			}
+			
+			// CategoryName 폼 유효성 검사
+			let categoryName = document.querySelector('#categoryName');
+			if(categoryName.value == ''){
+				alert('이름을 입력하세요.');
+				categoryName.focus();
+				return;
+			}
+			
+			let categoryForm = document.querySelector('#categoryForm');
+			categoryForm.submit();
+		});
+	</script>
 
 	<script src="<%=request.getContextPath()%>/adminkit-dev/static/js/app.js"></script>
 

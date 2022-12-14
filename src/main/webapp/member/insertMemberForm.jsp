@@ -51,7 +51,7 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-xl-5 col-md-8">
-              <form class="bg-white rounded shadow-5-strong p-5" action="<%=request.getContextPath()%>/member/insertMemberAction.jsp" method="post">
+              <form id="signinForm" class="bg-white rounded shadow-5-strong p-5" action="<%=request.getContextPath()%>/member/insertMemberAction.jsp" method="post">
                 <h4 style="float:left;">회원가입</h4><br><br>	
 				<!-- msg 파라메타값이 있으면 출력 -->
 				<%
@@ -68,7 +68,7 @@
                   <label class="form-label" for="form1Example1">회원 아이디</label>
                 </div>
 
-				<!-- ID input -->
+				<!-- Name input -->
                 <div class="form-outline mb-4">
                   <input type="text" name="memberName" id="form1Example2" class="form-control" />
                   <label class="form-label" for="form1Example2">회원 닉네임</label>
@@ -81,7 +81,7 @@
                 </div>
 
                 <!-- Submit button -->
-                <button style="float: right;" class="btn btn-primary" type="submit">회원가입</button>
+                <button id="signinBtn" style="float: right;" class="btn btn-primary" type="button">회원가입</button>
 				<div>
 				<a style="float: left;" type="button" class="btn btn-primary" href="<%=request.getContextPath()%>/member/loginForm.jsp">이전</a>
 				</div>
@@ -98,7 +98,43 @@
 		<div>
 			<jsp:include page="/inc/footer.jsp"></jsp:include>
 		</div>
-
+	
+	<script>
+		let signinBtn = document.querySelector('#signinBtn')
+		
+		signinBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('signinBtn click!');
+			
+			// ID 폼 유효성 검사
+			let id = document.querySelector('#form1Example1');
+			if(id.value == ''){
+				alert('ID를 입력하세요.');
+				id.focus();
+				return;
+			}
+			
+			// NAME 폼 유효성 검사
+			let name = document.querySelector('#form1Example2');
+			if(name.value == ''){
+				alert('이름을 입력하세요.');
+				name.focus();
+				return;
+			}
+			
+			// PASSWORD 폼 유효성 검사
+			let pw = document.querySelector('#form1Example3');
+			if(pw.value == ''){
+				alert('비밀번호를 입력하세요.');
+				pw.focus();
+				return;
+			}
+			
+			let signinForm = document.querySelector('#signiForm')
+			signinForm.submit(); // action = "./signAction.jsp";
+		});
+	</script>
+	
     <!-- MDB -->
     <script type="text/javascript" src="<%=request.getContextPath()%>/bootstrap-5-login-cover-template-main/js/mdb.min.js"></script>
     <!-- Custom scripts -->

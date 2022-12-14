@@ -3,6 +3,7 @@
 <%@ page import="dao.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.text.*" %>
 <%
 	// Controller
 	// session 유효성 검증 코드 후 필요하다면 redirect!
@@ -17,6 +18,9 @@
 	Member loginMember = (Member)objLoginMember;
 	//System.out.println(loginMember);
 
+	// 숫자 콤마 포맷
+	DecimalFormat df = new DecimalFormat("###,###");
+	
 	request.setCharacterEncoding("UTF-8");
 	
 	// 방어코드
@@ -573,7 +577,7 @@
 																	%>
 																</td>
 																<td><%=(String)m.get("categoryName")%></td>
-																<td><%=(Long)m.get("cashPrice")%>원</td>
+																<td><%=df.format((Long)m.get("cashPrice"))%>원</td>
 																<td><%=(String)m.get("cashMemo")%></td>
 																<td><%=(String)m.get("createdate")%></td>
 																<td><%=(String)m.get("updatedate")%></td>
@@ -609,7 +613,7 @@
 								<%		
 									}
 								%>
-								<form action="<%=request.getContextPath()%>/cash/insertCashAction.jsp" method="post">
+								<form id="cashForm" action="<%=request.getContextPath()%>/cash/insertCashAction.jsp" method="post">
 									<input type="hidden" name="memberId" value="<%=loginMember.getMemberId()%>">
 									<input type="hidden" name="year" value="<%=year%>">
 									<input type="hidden" name="month" value="<%=month%>">
@@ -643,19 +647,19 @@
 										<tr>
 											<td>금액</td>
 											<td>
-												<input type="number" name="cashPrice" value="">
+												<input type="number" name="cashPrice" id="price">
 											</td>
 										</tr>
 										<tr>
 											<td>메모</td>
 											<td>
-												<textarea rows="3" cols="50" name="cashMemo"></textarea>
+												<textarea rows="3" cols="50" name="cashMemo" id="memo"></textarea>
 											</td>
 										</tr>			
 									</tbody>
 									</table>
 									<a class="btn btn-primary" href="<%=request.getContextPath()%>/cash/cashList.jsp">이전</a>
-									<button style="float:right;" class="btn btn-info" type="submit">입력</button>
+									<button id="cashBtn" style="float:right;" class="btn btn-info" type="button">입력</button>
 								</form>
 							</div>
 						</div>
@@ -685,6 +689,34 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+		let cashBtn = document.querySelector('#cashBtn')
+		
+		cashBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('cashBtn Click!');
+			
+			// PRICE 폼 유효성 검사
+			let price = document.querySelector('#price');
+			if(price.value == ''){
+				alert('금액을 입력하세요.');
+				price.focus();
+				return;
+			}
+			
+			// MEMO 폼 유효성 검사
+			let memo = document.querySelector('#memo');
+			if(memo.value == ''){
+				alert('메모를 입력하세요.');
+				memo.focus();
+				return;
+			}
+			
+			let cashForm = document.querySelector('#cashForm');
+			cashForm.submit();
+		});
+	</script>
 
 	<script src="../adminkit-dev/static/js/app.js"></script>
 

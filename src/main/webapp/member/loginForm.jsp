@@ -57,7 +57,7 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-xl-5 col-md-8">
-              <form class="bg-white rounded shadow-5-strong p-5" action="<%=request.getContextPath()%>/member/loginAction.jsp" method="post">
+              <form id="loginForm" class="bg-white rounded shadow-5-strong p-5" action="<%=request.getContextPath()%>/member/loginAction.jsp" method="post">
                 <h4 style="float:left;">로그인</h4><br><br>	
                 <!-- msg 파라메타값이 있으면 출력 -->
 				<%
@@ -99,7 +99,7 @@
                 </div>
 
                 <!-- Submit button -->
-                <button style="float: right;" class="btn btn-primary" type="submit">로그인</button>
+                <button id="loginBtn" style="float: right;" class="btn btn-primary" type="button">로그인</button>
 				<div>
 				<!-- id가 없는 경우 회원가입 부터 -->
 				<a style="float: left;" type="button" class="btn btn-primary" href="<%=request.getContextPath()%>/member/insertMemberForm.jsp">회원가입</a>
@@ -117,7 +117,35 @@
 		<div>
 			<jsp:include page="/inc/footer.jsp"></jsp:include>
 		</div>
-
+	
+	<script>
+		let loginBtn = document.querySelector('#loginBtn')
+		
+		loginBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('loginBtn Click!');
+			
+			// ID 폼 유효성 검사
+			let id = document.querySelector('#form1Example1');
+			if(id.value == ''){
+				alert('ID를 입력하세요.');
+				id.focus();
+				return;
+			}		
+			
+			// PASSWORD 폼 유효성 검사
+			let pw = document.querySelector('#form1Example2');
+			if(pw.value == ''){
+				alert('비밀번호를 입력하세요.');
+				pw.focus();
+				return;
+			}
+			
+			let loginForm = document.querySelector('#loginForm')
+			loginForm.submit();
+		});
+	</script>
+	
     <!-- MDB -->
     <script type="text/javascript" src="<%=request.getContextPath()%>/bootstrap-5-login-cover-template-main/js/mdb.min.js"></script>
     <!-- Custom scripts -->

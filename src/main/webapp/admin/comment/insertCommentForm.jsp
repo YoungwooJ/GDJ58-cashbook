@@ -565,7 +565,7 @@
 											<%		
 												}
 											%>
-											<form action="<%=request.getContextPath()%>/admin/comment/insertCommentAction.jsp" method="post">
+											<form id="commentForm" action="<%=request.getContextPath()%>/admin/comment/insertCommentAction.jsp" method="post">
 												<input type="hidden" name="currentPage" value="<%=currentPage%>">
 												<input type="hidden" name="memberId" value=<%=loginMember.getMemberId()%>>
 												<table class="table table-border">
@@ -602,12 +602,12 @@
 													<tr>
 														<td>답변</td>
 														<td>
-															<textarea rows="3" cols="50" name="commentMemo"></textarea>
+															<textarea rows="3" cols="50" name="commentMemo" id="commentMemo"></textarea>
 														</td>
 													</tr>
 												</table>			
 												<a class="btn btn-primary" href="<%=request.getContextPath()%>/admin/comment/commentList.jsp?currentPage=<%=currentPage%>">이전</a>
-												<button style="float:right;" class="btn btn-info" type="submit">입력</button>
+												<button id="commentBtn" style="float:right;" class="btn btn-info" type="button">입력</button>
 											</form>
 										</div>
 									</div>
@@ -678,6 +678,26 @@
 			</div>
 		</div>
 	</div>
+	
+	<script>
+		let commentBtn = document.querySelector('#commentBtn')
+		
+		commentBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('commentBtn Click!');			
+			
+			// commentMemo 폼 유효성 검사
+			let commentMemo = document.querySelector('#commentMemo');
+			if(commentMemo.value == ''){
+				alert('답변을 입력하세요.');
+				commentMemo.focus();
+				return;
+			}
+			
+			let commentForm = document.querySelector('#commentForm');
+			commentForm.submit();
+		});
+	</script>
 
 	<script src="<%=request.getContextPath()%>/adminkit-dev/static/js/app.js"></script>
 

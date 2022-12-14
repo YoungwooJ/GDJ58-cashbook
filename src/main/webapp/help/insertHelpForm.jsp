@@ -520,7 +520,7 @@
 											<%		
 												}
 											%>
-											<form action="<%=request.getContextPath()%>/help/insertHelpAction.jsp" method="post">
+											<form id="helpForm" action="<%=request.getContextPath()%>/help/insertHelpAction.jsp" method="post">
 												<table class="table table-border">
 													<tr>
 														<td>문의 ID</td>
@@ -537,12 +537,12 @@
 													<tr>
 														<td>문의</td>
 														<td>
-															<textarea rows="3" cols="50" name="helpMemo"></textarea>
+															<textarea id="memo" rows="3" cols="50" name="helpMemo"></textarea>
 														</td>
 													</tr>
 												</table>			
 												<a class="btn btn-primary" href="<%=request.getContextPath()%>/help/helpList.jsp">이전</a>
-												<button style="float:right;" class="btn btn-info" type="submit">입력</button>
+												<button id="helpBtn" style="float:right;" class="btn btn-info" type="button">입력</button>
 											</form>	
 										</div>
 									</div>
@@ -594,7 +594,27 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<script>
+		let helpBtn = document.querySelector('#helpBtn')
+		
+		helpBtn.addEventListener('click', function(){
+			// 디버깅
+			console.log('helpBtn Click!');
+			
+			// MEMO 폼 유효성 검사
+			let memo = document.querySelector('#memo');
+			if(memo.value == ''){
+				alert('내용을 입력하세요.');
+				memo.focus();
+				return;
+			}
+			
+			let helpForm = document.querySelector('#helpForm');
+			helpForm.submit();
+		});
+	</script>
+	
 	<script src="../adminkit-dev/static/js/app.js"></script>
 
 	<script>
