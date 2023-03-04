@@ -71,7 +71,7 @@ public class HelpDao {
 					+ "			, c.member_id commentMemberId"
 					+ "			, c.updatedate commentUpdatedate"
 					+ "			, c.createdate commentCreatedate"
-					+ " FROM help h LEFT JOIN COMMENT c"
+					+ " FROM help h LEFT JOIN comment c"
 					+ " ON h.help_no = c.help_no"
 					+ " LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
@@ -128,7 +128,7 @@ public class HelpDao {
 				+ "			, c.member_id commentMemberId"
 				+ "			, c.updatedate commentUpdatedate"
 				+ "			, c.createdate commentCreatedate"
-				+ " FROM help h LEFT JOIN COMMENT c"
+				+ " FROM help h LEFT JOIN comment c"
 				+ " ON h.help_no = c.help_no"
 				+ " WHERE h.member_id = ?";
 			stmt = conn.prepareStatement(sql);

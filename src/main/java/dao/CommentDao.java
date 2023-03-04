@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 import util.DBUtil;
 import vo.Comment;
-import vo.Help;
 
 public class CommentDao {
 	// SELECT : updateCommentForm.jsp
@@ -72,7 +71,7 @@ public class CommentDao {
 				+ "			, c.member_id commentMemberId"
 				+ "			, c.updatedate commentUpdatedate"
 				+ "			, c.createdate commentCreatedate"
-				+ " FROM help h LEFT JOIN COMMENT c"
+				+ " FROM help h LEFT JOIN comment c"
 				+ " ON h.help_no = c.help_no"
 				+ " LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
